@@ -9,6 +9,7 @@ import {
   repoIdFromRemote,
   resolveTtlSeconds,
 } from "./gh-cache.mjs";
+import { loadAfkIgnore } from "./afkignore.mjs";
 
 const DISQUALIFYING_LABELS = new Set([
   "ready-for-human",
@@ -99,7 +100,8 @@ function main(argv) {
     );
   }
   const blockerStates = loadBlockerStates(issues, cacheOpts);
-  const analyzed = issues.map((issue) => analyzeIssue(issue, blockerStates));
+  const matcher = loadAfkIgnore(process.cwd());
+  const analyzed = issues.map((issue) => analyzeIssue(issue, blockerStates, matcher));
   const eligible = analyzed.filter((issue) => issue.bucket === "eligible");
   const batchSlug = buildBatchSlug(eligible.length > 0 ? eligible : analyzed);
   const plan = {
@@ -238,21 +240,42 @@ function loadBlockerStates(rawIssues, cacheOpts = {}) {
   return states;
 }
 
-function analyzeIssue(issue, blockerStates) {
+export function analyzeIssue(issue, blockerStates, matcher) {
   const labels = (issue.labels ?? []).map((label) => label.name ?? label);
   const labelSet = new Set(labels);
   const body = issue.body ?? "";
+  const acData = extractAcceptanceCriteria(body);
+  const pendingCriteria = acData.pending;
+  const completedCriteria = acData.completed;
+  const manualCriteria = pendingCriteria.filter((c) => c.level === "L4");
+  const automatableCriteria = pendingCriteria.filter((c) => c.level !== "L4");
+
+  // The per-repo .afkignore filter is consulted before any other eligibility
+  // reason. A matched issue short-circuits into the `ignored` bucket carrying
+  // only the afkignore reason, so .afkignore beats every other bucket.
+  const ignore = matcher ? matcher.shouldIgnore(issue) : { ignored: false };
+  if (ignore.ignored) {
+    return {
+      number: issue.number,
+      title: issue.title,
+      state: issue.state ?? "OPEN",
+      labels,
+      bucket: "ignored",
+      reasons: [`matches .afkignore: ${ignore.matchedLabel}`],
+      blockers: [],
+      openBlockers: [],
+      taskBranch: `afk/issue-${issue.number}-${slugify(issue.title, `issue-${issue.number}`)}`,
+      tddPlan: buildTddPlan(pendingCriteria, automatableCriteria, manualCriteria, completedCriteria),
+      acVerification: buildAcVerificationPlan(acData),
+    };
+  }
+
   const blockers = parseBlockers(body);
   const openBlockers = blockers.filter((number) => {
     const blocker = blockerStates.get(number);
     return !blocker || blocker.state !== "CLOSED";
   });
-  const acData = extractAcceptanceCriteria(body);
-  const pendingCriteria = acData.pending;
-  const completedCriteria = acData.completed;
   const totalCriteriaCount = pendingCriteria.length + completedCriteria.length;
-  const manualCriteria = pendingCriteria.filter((c) => c.level === "L4");
-  const automatableCriteria = pendingCriteria.filter((c) => c.level !== "L4");
   const hasWhatToBuild = /^##\s+What to build\b/im.test(body) || /^##\s+要构建什么\b/im.test(body);
   const hasAcceptanceCriteria =
     /^##\s+Acceptance criteria\b/im.test(body) || /^##\s+验收标准\b/im.test(body);
@@ -472,7 +495,7 @@ function countByLevel(items) {
   return counts;
 }
 
-function summarize(issues) {
+export function summarize(issues) {
   return {
     total: issues.length,
     eligible: issues.filter((issue) => issue.bucket === "eligible").length,
@@ -481,6 +504,7 @@ function summarize(issues) {
     claimed: issues.filter((issue) => issue.bucket === "claimed").length,
     failed: issues.filter((issue) => issue.bucket === "failed").length,
     ineligible: issues.filter((issue) => issue.bucket === "ineligible").length,
+    ignored: issues.filter((issue) => issue.bucket === "ignored").length,
   };
 }
 
@@ -595,7 +619,7 @@ function slugify(value, fallback = "afk-batch") {
   return words.filter((word) => !stop.has(word)).slice(0, 8).join("-") || fallback;
 }
 
-function printMarkdown(currentPlan) {
+export function printMarkdown(currentPlan) {
   console.log(`# afk-agent plan\n`);
   console.log(`Mode: ${currentPlan.mode} (scanner is read-only; execution is performed by the calling agent)`);
   console.log(`Batch branch: \`${currentPlan.batchBranch}\``);
@@ -606,6 +630,9 @@ function printMarkdown(currentPlan) {
 
   console.log(`## Summary\n`);
   for (const [bucket, count] of Object.entries(currentPlan.summary)) {
+    // Keep output byte-identical to the pre-feature baseline when .afkignore is
+    // not in use: the ignored line only appears once something is ignored.
+    if (bucket === "ignored" && count === 0) continue;
     console.log(`- ${bucket}: ${count}`);
   }
 
@@ -615,6 +642,9 @@ function printMarkdown(currentPlan) {
   printBucket("Human-only", currentPlan.issues, "humanOnly");
   printBucket("Claimed", currentPlan.issues, "claimed");
   printBucket("Ineligible", currentPlan.issues, "ineligible");
+  if (currentPlan.issues.some((issue) => issue.bucket === "ignored")) {
+    printBucket("Ignored (.afkignore)", currentPlan.issues, "ignored");
+  }
 
   console.log(`\n## Dependency graph\n`);
   for (const item of currentPlan.dependencyGraph) {
