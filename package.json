@@ -1,0 +1,10 @@
+{
+  "name": "afk-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AFK development orchestrator for GitHub issues (Claude/Codex skill).",
+  "scripts": {
+    "test": "node --test"
+  }
+}
