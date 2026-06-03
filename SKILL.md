@@ -3,6 +3,8 @@ name: afk-agent
 description: AFK development orchestrator for GitHub issues. Scans ready-for-agent work, builds dependency and priority plans, runs TDD implementation per issue, verifies acceptance criteria (L1 grep / L2 test / L3 browser, with L4 human-only flagged), ticks verified AC checkboxes on the issue, and opens auto-merge PRs into a shared batch branch. Use when the user invokes /afk-agent, /afk agent, asks to scan AFK-ready GitHub issues, or wants semi-automated agent development.
 ---
 
+> 📖 人读文档 / Human docs: [`README.md`](README.md)（中文） · [`README.en.md`](README.en.md)（English）
+
 # afk-agent
 
 `afk-agent` orchestrates AFK (away-from-keyboard) development across multiple GitHub issues. The **scanner** is read-only — it produces a plan. The **calling agent** executes that plan: claims issues, implements via TDD, verifies acceptance criteria, ticks verified boxes on the issue body, and opens PRs that auto-merge into a shared batch branch.

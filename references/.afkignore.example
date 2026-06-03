@@ -1,0 +1,21 @@
+# .afkignore — per-repo label filter for afk-agent
+#
+# Copy this file to your repository root as `.afkignore` (drop the `.example`
+# suffix). Any open issue carrying a label listed here is dropped from the
+# afk-agent plan into the "Ignored (.afkignore)" bucket BEFORE any other
+# eligibility check runs — so it stays visible in the plan instead of silently
+# disappearing, but is never claimed or implemented.
+#
+# Syntax (v1, intentionally minimal):
+#   - one label per line
+#   - lines beginning with `#` are comments
+#   - blank lines are ignored
+#   - leading/trailing whitespace is stripped
+#   - matching is EXACT and CASE-SENSITIVE against the issue's label names
+#   - no globs, no regex, no negation
+#
+# Example: keep human-owned, parked, and untriaged work out of AFK runs.
+
+ready-for-human
+needs-info
+wontfix
