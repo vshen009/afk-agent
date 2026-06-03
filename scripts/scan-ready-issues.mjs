@@ -2,6 +2,14 @@
 
 import { execFileSync } from "node:child_process";
 
+import {
+  cachedGh,
+  clearCache,
+  cacheStats,
+  repoIdFromRemote,
+  resolveTtlSeconds,
+} from "./gh-cache.mjs";
+
 const DISQUALIFYING_LABELS = new Set([
   "ready-for-human",
   "needs-info",
@@ -49,104 +57,165 @@ const EXPLICIT_TAG_MAP = {
   l4: "L4",
 };
 
-const args = parseArgs(process.argv.slice(2));
-if (args.selfTest) {
-  runSelfTest();
-  process.exit(0);
+function main(argv) {
+  const args = parseArgs(argv);
+  if (args.selfTest) {
+    runSelfTest();
+    return;
+  }
+
+  const repoId = repoIdFromRemote();
+
+  if (args.clearCache) {
+    const removed = clearCache(repoId);
+    console.log(`Cleared ${removed} cache entr${removed === 1 ? "y" : "ies"} for ${repoId}.`);
+    return;
+  }
+
+  if (args.cacheStats) {
+    const stats = cacheStats(repoId);
+    const oldest = stats.oldestAgeMs == null ? "n/a" : `${Math.round(stats.oldestAgeMs / 1000)}s`;
+    console.log(
+      `Cache stats for ${repoId}: hit ${stats.hits} / miss ${stats.misses}; ${stats.entries} entries; oldest ${oldest}.`,
+    );
+    return;
+  }
+
+  const cacheRunStats = { hits: 0, misses: 0 };
+  const cacheOpts = {
+    executor: gh,
+    ttlSeconds: resolveTtlSeconds({ noCache: args.noCache, cacheTtl: args.cacheTtl }),
+    repoId,
+    stats: cacheRunStats,
+  };
+
+  const limit = args.limit ?? "500";
+  const singleIssue = args.issue;
+
+  const issues = singleIssue ? [viewIssue(singleIssue, cacheOpts)] : listIssues(limit, cacheOpts);
+  if (!singleIssue && issues.length >= Number(limit)) {
+    process.stderr.write(
+      `warning: fetched ${issues.length} issues at --limit ${limit}; some open issues may be missing. Re-run with a higher --limit.\n`,
+    );
+  }
+  const blockerStates = loadBlockerStates(issues, cacheOpts);
+  const analyzed = issues.map((issue) => analyzeIssue(issue, blockerStates));
+  const eligible = analyzed.filter((issue) => issue.bucket === "eligible");
+  const batchSlug = buildBatchSlug(eligible.length > 0 ? eligible : analyzed);
+  const plan = {
+    mode: "plan",
+    generatedAt: new Date().toISOString(),
+    summary: summarize(analyzed),
+    batchBranch: `agent/${batchSlug}`,
+    maxParallel: 2,
+    prMergeStrategy: "auto-merge task PRs into batch branch; batch branch → main stays human",
+    cache: { hits: cacheRunStats.hits, misses: cacheRunStats.misses },
+    issues: analyzed,
+    dependencyGraph: analyzed.map((issue) => ({
+      issue: issue.number,
+      title: issue.title,
+      blockers: issue.blockers,
+      openBlockers: issue.openBlockers,
+    })),
+    executionWaves: buildExecutionWaves(analyzed),
+    executionPlan: buildExecutionPlan(eligible, batchSlug),
+  };
+
+  if (args.json) {
+    console.log(JSON.stringify(plan, null, 2));
+  } else {
+    printMarkdown(plan);
+  }
 }
 
-const limit = args.limit ?? "500";
-const singleIssue = args.issue;
-
-const issues = singleIssue ? [viewIssue(singleIssue)] : listIssues(limit);
-if (!singleIssue && issues.length >= Number(limit)) {
-  process.stderr.write(
-    `warning: fetched ${issues.length} issues at --limit ${limit}; some open issues may be missing. Re-run with a higher --limit.\n`,
-  );
-}
-const blockerStates = loadBlockerStates(issues);
-const analyzed = issues.map((issue) => analyzeIssue(issue, blockerStates));
-const eligible = analyzed.filter((issue) => issue.bucket === "eligible");
-const batchSlug = buildBatchSlug(eligible.length > 0 ? eligible : analyzed);
-const plan = {
-  mode: "plan",
-  generatedAt: new Date().toISOString(),
-  summary: summarize(analyzed),
-  batchBranch: `agent/${batchSlug}`,
-  maxParallel: 2,
-  prMergeStrategy: "auto-merge task PRs into batch branch; batch branch → main stays human",
-  issues: analyzed,
-  dependencyGraph: analyzed.map((issue) => ({
-    issue: issue.number,
-    title: issue.title,
-    blockers: issue.blockers,
-    openBlockers: issue.openBlockers,
-  })),
-  executionWaves: buildExecutionWaves(analyzed),
-  executionPlan: buildExecutionPlan(eligible, batchSlug),
-};
-
-if (args.json) {
-  console.log(JSON.stringify(plan, null, 2));
-} else {
-  printMarkdown(plan);
+if (import.meta.main) {
+  main(process.argv.slice(2));
 }
 
-function parseArgs(argv) {
-  const parsed = { json: false };
+export function parseArgs(argv) {
+  const parsed = { json: false, noCache: false, clearCache: false, cacheStats: false };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--json") parsed.json = true;
     else if (arg === "--limit") parsed.limit = argv[++index];
     else if (arg === "--issue") parsed.issue = normalizeIssueNumber(argv[++index]);
     else if (arg === "--self-test") parsed.selfTest = true;
+    else if (arg === "--no-cache") parsed.noCache = true;
+    else if (arg === "--cache-ttl") parsed.cacheTtl = argv[++index];
+    else if (arg === "--clear-cache") parsed.clearCache = true;
+    else if (arg === "--cache-stats") parsed.cacheStats = true;
     else if (/^#?\d+$/.test(arg)) parsed.issue = normalizeIssueNumber(arg);
     else if (arg === "--help" || arg === "-h") {
-      console.log("Usage: scan-ready-issues.mjs [--issue 26] [--limit 100] [--json] [--self-test]");
+      printHelp();
       process.exit(0);
     }
   }
   return parsed;
 }
 
+function printHelp() {
+  console.log(
+    [
+      "Usage: scan-ready-issues.mjs [--issue 26] [--limit 100] [--json] [--self-test]",
+      "                             [--no-cache] [--cache-ttl <seconds>] [--clear-cache] [--cache-stats]",
+      "",
+      "Read-only gh calls are disk-cached under ~/.cache/afk-agent/<repoId>/ (default TTL 300s,",
+      "override with the AFK_CACHE_TTL env var). Cache flags:",
+      "  --no-cache             bypass the cache; force live gh calls (TTL 0)",
+      "  --cache-ttl <seconds>  override the cache TTL for this run",
+      "  --clear-cache          delete all cache entries for this repo, then exit",
+      "  --cache-stats          print cache statistics for this repo, then exit",
+    ].join("\n"),
+  );
+}
+
 function normalizeIssueNumber(value) {
   return String(value ?? "").replace(/^#/, "");
 }
 
-function listIssues(listLimit) {
-  const output = gh([
-    "issue",
-    "list",
-    "--state",
-    "open",
-    "--limit",
-    String(listLimit),
-    "--json",
-    "number,title,body,labels,assignees,milestone,comments,state",
-  ]);
+export function listIssues(listLimit, cacheOpts = {}) {
+  const output = cachedGh(
+    [
+      "issue",
+      "list",
+      "--state",
+      "open",
+      "--limit",
+      String(listLimit),
+      "--json",
+      "number,title,body,labels,assignees,milestone,comments,state",
+    ],
+    cacheOpts,
+  );
   return JSON.parse(output);
 }
 
-function viewIssue(number) {
-  const output = gh([
-    "issue",
-    "view",
-    String(number),
-    "--json",
-    "number,title,body,labels,assignees,milestone,comments,state",
-  ]);
+export function viewIssue(number, cacheOpts = {}) {
+  const output = cachedGh(
+    [
+      "issue",
+      "view",
+      String(number),
+      "--json",
+      "number,title,body,labels,assignees,milestone,comments,state",
+    ],
+    cacheOpts,
+  );
   return JSON.parse(output);
 }
 
-function viewIssueState(number) {
+function viewIssueState(number, cacheOpts = {}) {
   try {
-    const output = gh(["issue", "view", String(number), "--json", "number,title,state"]);
+    const output = cachedGh(["issue", "view", String(number), "--json", "number,title,state"], cacheOpts);
     return JSON.parse(output);
   } catch {
     return { number: Number(number), title: null, state: "UNKNOWN" };
   }
 }
 
+// Raw, uncached gh executor. The read-only scanner calls above route through
+// `cachedGh`; this stays the executor of record and the path for any future
+// mutating gh call (label edit, comment, PR create/merge), which must never be cached.
 function gh(commandArgs) {
   return execFileSync("gh", commandArgs, {
     encoding: "utf8",
@@ -154,7 +223,7 @@ function gh(commandArgs) {
   });
 }
 
-function loadBlockerStates(rawIssues) {
+function loadBlockerStates(rawIssues, cacheOpts = {}) {
   const blockerNumbers = new Set();
   for (const issue of rawIssues) {
     for (const blocker of parseBlockers(issue.body ?? "")) {
@@ -164,7 +233,7 @@ function loadBlockerStates(rawIssues) {
 
   const states = new Map();
   for (const blocker of blockerNumbers) {
-    states.set(blocker, viewIssueState(blocker));
+    states.set(blocker, viewIssueState(blocker, cacheOpts));
   }
   return states;
 }
@@ -531,7 +600,9 @@ function printMarkdown(currentPlan) {
   console.log(`Mode: ${currentPlan.mode} (scanner is read-only; execution is performed by the calling agent)`);
   console.log(`Batch branch: \`${currentPlan.batchBranch}\``);
   console.log(`Max parallel: ${currentPlan.maxParallel}`);
-  console.log(`PR merge strategy: ${currentPlan.prMergeStrategy}\n`);
+  console.log(`PR merge strategy: ${currentPlan.prMergeStrategy}`);
+  const cache = currentPlan.cache ?? { hits: 0, misses: 0 };
+  console.log(`Cache: hit ${cache.hits} / miss ${cache.misses}\n`);
 
   console.log(`## Summary\n`);
   for (const [bucket, count] of Object.entries(currentPlan.summary)) {
