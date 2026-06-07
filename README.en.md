@@ -38,11 +38,15 @@ The scanner is read-only and produces a plan; the executing agent drives it. The
 1. **Scan** — select issues labelled `ready-for-agent`, with no open blockers and a clear "what to build" plus a checklist of acceptance criteria.
 2. **Claim** — add `agent-claimed` / `agent-in-progress` labels and post a claim comment as a concurrency lock.
 3. **TDD** — write a red test for each **pending** acceptance criterion (`- [ ]`), then the smallest implementation that turns it green.
-4. **AC verify** — classify and check each item: **L1** grep/AST, **L2** test, **L3** headless browser, **L4** human-only (never auto-ticked).
+4. **AC verify** — classify and check each item: **L1** grep/AST, **L2** test, **L3** headless browser (the screenshot is committed to the task branch and embedded into the verification report), **L4** human-only (never auto-ticked).
 5. **Tick checkboxes** — flip only the verified `- [ ]` to `- [x]` and post a verification report with evidence.
 6. **Auto-merge PR** — merge the task-branch PR into the batch branch `agent/<theme-slug>` (the PR body carries `Closes #<issue>`).
 
 **The scanner never pushes by itself; the batch branch → `main` is always human review and merge.** If any L1/L2/L3 check fails, no PR is created, the issue gets `agent-failed`, and no checkboxes are flipped.
+
+## L3 evidence
+
+L3 (browser-observable) acceptance criteria are proven with a screenshot. To make that proof visible on GitHub — not just a dangling local path — every passing L3 screenshot is **committed to the task branch** under `.afk/evidence/issue-<n>/` and **embedded into the AC verification report** via a commit-pinned raw URL plus a blob permalink. This is a hard gate: an L3 box is only ticked once its screenshot is committed and referenced in the report; if it can't be, the AC fails like any other. Public repos render the image inline in the comment; private repos show it in the PR's **Files changed** tab and via the blob link. The [`scripts/evidence.mjs`](scripts/evidence.mjs) helper builds the paths and URLs.
 
 ## `.afkignore`
 

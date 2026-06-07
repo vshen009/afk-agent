@@ -39,7 +39,7 @@ Examples:
 - `375px mobile: receipt-side hidden, bundle bar stacks vertically, history rows single-column`
 - `Inline error variants for invalid / revoked / exhausted, no toast, input outline turns red`
 
-Evidence: screenshot path + viewport + interaction trace.
+Evidence: a screenshot **committed to the task branch** under `.afk/evidence/issue-<n>/`, **embedded into the AC verification report** via a SHA-pinned raw URL + blob permalink, plus viewport + interaction trace. An L3 box may **not** be ticked unless its screenshot is committed and referenced in the report — see [L3 evidence upload (gating)](#l3-evidence-upload-gating).
 
 ### L4 — Human-only
 
@@ -77,6 +77,33 @@ Applied in order; first match wins.
 
 Because the heuristic is approximate, the executing agent should run an LLM cross-check on every heuristic-classified AC before verification. The LLM cross-check may upgrade a level (e.g. L1 → L3 because the AC is actually about UI behavior), but it may **never** downgrade an L4.
 
+## L3 evidence upload (gating)
+
+L3 evidence is only "concrete" once the screenshot is actually visible on GitHub — a local path like `runs/<id>/shot.png` proves nothing to a reviewer. So every L3 AC that passes must have its screenshot **committed to the task branch and embedded in the AC verification report**. The helper [`scripts/evidence.mjs`](../scripts/evidence.mjs) builds the paths and URLs deterministically.
+
+Per passing L3 AC:
+
+1. Capture the screenshot with the headless browser / preview MCP tool.
+2. Stage it into the evidence dir:
+
+   ```bash
+   node ~/.codex/skills/afk-agent/scripts/evidence.mjs stage \
+     --screenshot <captured.png> --issue <n> --ac-slug <slug> --viewport 375x812
+   ```
+
+   This copies it to `.afk/evidence/issue-<n>/<slug>-<viewport>.png` and `git add`s it.
+3. Commit the evidence — a dedicated `chore(afk): L3 evidence #<n>` commit keeps it easy for the human to drop before the batch branch merges to `main` — and `git push` the task branch.
+4. Build the embed line, pinned to the pushed commit:
+
+   ```bash
+   node ~/.codex/skills/afk-agent/scripts/evidence.mjs url \
+     --sha "$(git rev-parse HEAD)" --issue <n> --ac-slug <slug> --viewport 375x812
+   ```
+
+   Use the `embedMarkdown` field as that AC's evidence line in the report.
+
+**Gate.** If a passing L3 AC's screenshot cannot be captured, committed, or embedded, treat that AC as a verification failure and follow the [Failure Mode](#failure-mode): tick no boxes, apply `agent-failed`, open no PR. The gate is "committed + referenced", **not** "renders inline" — public repos render the raw URL inline in the comment; private repos do not (camo cannot authenticate), but the committed PNG is still visible in the PR's **Files changed** tab and the blob permalink opens for repo members, so the report always carries both the embed and the blob link.
+
 ## Tick-off Mechanics
 
 For each AC whose verification passed:
@@ -110,7 +137,7 @@ This is **one of four comments** the agent posts on the issue. The full timeline
 ### Download page UI
 
 - [x] L3 — 375px mobile receipt-side hidden
-  - evidence: screenshot `runs/<id>/mobile-375.png`, viewport 375×812
+  - evidence: ![375px mobile receipt-side hidden — 375x812](https://raw.githubusercontent.com/<owner>/<repo>/<sha>/.afk/evidence/issue-<n>/mobile-receipt-hidden-375x812.png) ([view on GitHub](https://github.com/<owner>/<repo>/blob/<sha>/.afk/evidence/issue-<n>/mobile-receipt-hidden-375x812.png)), viewport 375×812
 - [ ] L4 — End-to-end manual verify (real zip downloads from R2)
   - flagged for human verification before batch branch → main merge
 ```
