@@ -13,6 +13,7 @@ Execution mode is **on**. The scanner (`scan-ready-issues.mjs`) remains read-onl
 - `gh issue close` — only after the linked task PR has auto-merged into the batch branch (see "Completion & Issue Close")
 - `git fetch origin`, `git checkout -B <task-branch>` based on the batch branch
 - `git add`, `git commit`, `git push origin <task-branch>`
+- commit L3 screenshot evidence under `.afk/evidence/issue-<n>/` to the task branch (use `scripts/evidence.mjs` to stage the file and build the SHA-pinned embed URLs — see `AC_VERIFICATION.md` "L3 evidence upload")
 - `gh pr create` against the batch branch (not main); PR body **must** contain `Closes #<issue>`
 - `gh pr merge --auto --squash` against the batch branch (auto-merges once required checks pass)
 
@@ -25,6 +26,7 @@ Execution mode is **on**. The scanner (`scan-ready-issues.mjs`) remains read-onl
 - modifying acceptance-criteria text (only the checkbox state may change)
 - ticking acceptance-criteria checkboxes for `L4` (human-only) items
 - ticking acceptance-criteria checkboxes when verification did not produce concrete evidence
+- ticking an `L3` acceptance-criteria checkbox whose screenshot was **not** committed to the task branch and **not** referenced (embedded image + blob link) in the AC verification report
 - bypassing test gates (`--no-verify`, skipping lint/test/build)
 - closing an issue before its linked task PR is confirmed merged into the batch branch
 
@@ -140,6 +142,7 @@ Every task PR body must contain:
 - `Closes #<issue>` on its own line (creates PR↔issue link; fallback auto-close when batch → main)
 - first failing test behavior + commands that passed (from the TDD phase)
 - AC verification rollup: `L1 N · L2 N · L3 N · L4 N`
+- for each L3 AC, a link to its committed screenshot evidence (`.afk/evidence/issue-<n>/…`)
 - explicit list of L4 ACs that need human verification before the batch branch merges to main
 
 ## Test Gates
@@ -152,14 +155,14 @@ pnpm test
 pnpm build
 ```
 
-For UI changes, the agent additionally runs the AC verification step (see `TDD_REQUIREMENTS.md`), which exercises L3 acceptance criteria in a headless browser and captures snapshots/screenshots as evidence.
+For UI changes, the agent additionally runs the AC verification step (see `TDD_REQUIREMENTS.md`), which exercises L3 acceptance criteria in a headless browser, captures screenshots, **commits them under `.afk/evidence/issue-<n>/` and embeds the SHA-pinned image into the AC verification report** as evidence.
 
 ## Acceptance Criteria Verification
 
 After lint/test/build pass:
 
 1. The agent classifies each pending AC as L1 (grep/AST), L2 (test), L3 (browser), or L4 (human-only). Explicit author tags (`[L1]`/`[code]`/`[L2]`/`[test]`/`[L3]`/`[browser]`/`[L4]`/`[manual]`) override the heuristic.
-2. The agent runs the matching check for every L1/L2/L3 AC and records concrete evidence (file:line, test name + output, screenshot path).
+2. The agent runs the matching check for every L1/L2/L3 AC and records concrete evidence (file:line, test name + output). For each passing **L3** AC it also commits the screenshot under `.afk/evidence/issue-<n>/` to the task branch and builds the SHA-pinned embed (via `scripts/evidence.mjs`) — an L3 AC whose screenshot cannot be committed and embedded is a verification **failure** (see `AC_VERIFICATION.md` "L3 evidence upload").
 3. For every AC that passes, the agent edits the issue body and flips that exact line's `- [ ]` to `- [x]`. AC text is never modified. L4 items are never ticked.
 4. The agent posts an AC verification report comment with one bullet per AC: text, level, status (pass / fail / skipped-L4), evidence reference.
 

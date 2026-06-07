@@ -43,7 +43,7 @@ const MANUAL_PATTERNS = [
 const LEVEL_APPROACH = {
   L1: "grep / AST match against source files",
   L2: "passing test asserts this behavior",
-  L3: "headless browser / preview reproduction with snapshot or screenshot",
+  L3: "headless browser / preview reproduction; screenshot committed to the task branch (.afk/evidence/) and embedded into the AC verification report",
   L4: "HUMAN-ONLY — never auto-ticked, flagged in PR body",
 };
 
@@ -537,11 +537,13 @@ function buildExecutionPlan(eligible, batchSlug) {
       `git fetch origin && git checkout -B ${issue.taskBranch} origin/agent/${batchSlug}`,
       "invoke /tdd for the issue using only pending acceptance criteria",
       "run repo test gates (default: pnpm lint && pnpm test && pnpm build)",
-      "run AC verification: L1 = grep/AST, L2 = test discovery, L3 = headless browser snapshot",
-      "if any L1/L2/L3 fails → post FAILURE comment, set agent-failed, leave task branch pushed, stop (no PR)",
-      "for each verified pending AC, edit issue body to flip [ ] → [x]",
-      "post AC VERIFICATION REPORT comment (per-AC evidence, level, status)",
+      "run AC verification: L1 = grep/AST, L2 = test discovery, L3 = headless browser snapshot + commit screenshot to .afk/evidence/ and build the embed via scripts/evidence.mjs",
+      "if any L1/L2/L3 fails (including an L3 screenshot that can't be committed + embedded) → post FAILURE comment, set agent-failed, leave task branch pushed, stop (no PR)",
+      `if any L3 passed: commit its screenshot under .afk/evidence/issue-${issue.number}/ (dedicated \`chore(afk): L3 evidence\` commit)`,
       `git push origin ${issue.taskBranch}`,
+      "build each L3 embed (after push, so the SHA resolves): scripts/evidence.mjs url --sha $(git rev-parse HEAD) --issue <n> --ac-slug <slug> --viewport <w>x<h>",
+      "for each verified pending AC, edit issue body to flip [ ] → [x]",
+      "post AC VERIFICATION REPORT comment (per-AC evidence, level, status; L3 evidence = embedded screenshot + blob link)",
       `gh pr create --base agent/${batchSlug} --head ${issue.taskBranch} --title "..." --body "... Closes #${issue.number} ..."`,
       `gh pr merge <pr-number> --auto --squash`,
       "post COMPLETION comment (run id, PR link, auto-merge status, AC tick stats, L4 list, elapsed time, close strategy)",
@@ -564,6 +566,7 @@ function buildExecutionPlan(eligible, batchSlug) {
       `Closes #${issue.number}`,
       "run id",
       "AC verification rollup (L1/L2/L3/L4 counts)",
+      "for each L3 AC, a link to its committed screenshot evidence (.afk/evidence/issue-<n>/...)",
       "explicit list of L4 ACs needing human verification",
     ],
   }));
