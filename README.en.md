@@ -28,6 +28,7 @@ point back into this repo, never a real directory).
 | [`to-issues`](skills/to-issues/) | Break a plan/spec/PRD into independently-grabbable issues using tracer-bullet vertical slices | — |
 | [`tdd`](skills/tdd/) | Test-driven development: red-green-refactor loop | — |
 | [`diagnose`](skills/diagnose/) | Disciplined diagnosis loop for hard bugs / perf regressions: reproduce → minimise → hypothesise → instrument → fix → regression-test | — |
+| [`handoff`](skills/handoff/) | Compact the current conversation into a handoff document for another agent to pick up | — |
 
 ## Add a new skill
 

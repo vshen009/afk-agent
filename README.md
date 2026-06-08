@@ -26,6 +26,7 @@ cd ~/vstack && ./install.sh
 | [`to-issues`](skills/to-issues/) | 用 tracer-bullet 垂直切片把计划/spec/PRD 拆成可独立认领的 issue | — |
 | [`tdd`](skills/tdd/) | 测试驱动开发：red-green-refactor 循环 | — |
 | [`diagnose`](skills/diagnose/) | 硬骨头 bug / 性能回归的纪律化诊断循环：复现 → 最小化 → 假设 → 埋点 → 修复 → 回归测试 | — |
+| [`handoff`](skills/handoff/) | 把当前对话压缩成交接文档，供另一个 agent 接手 | — |
 
 ## 加一个新技能
 
