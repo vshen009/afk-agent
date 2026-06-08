@@ -11,7 +11,7 @@
 
 ## AI 时代，开发者角色正在经历一场换挡
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Carriage%2C_automobile_Fortepan_92241.jpg" width="600" alt="马车与汽车同行于街头，摄于交通方式交替的年代" />
+<img src="img/ChatGPT Image 2026年6月8日 14_21_36.png" width="600" alt="马车与 AI 开发室的时代对照" />
 
 一百年前，街上跑的是马车。驾驶马车是一门手艺：要懂马的性格、会判断路况、知道何时勒缰何时松绳，还得会喂料、换蹄铁、在马疲了的时候停下来休息。那些驾驶技术娴熟的人，靠的是多年和马打交道积累下来的直觉。
 
@@ -31,7 +31,7 @@
 
 ## 从想法到交付：一次完整的 AI 开发冲刺
 
-<img src="https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?fm=jpg&q=60&w=1200&auto=format&fit=crop" width="600" alt="AI 芯片，代表由 AI 驱动的自动化开发流程" />
+<img src="img/ChatGPT Image 2026年6月8日 14_36_25.png" width="600" alt="从 /grill-me 到 main branch 的完整 AI 开发流程图示" />
 
 vstack 里的技能，是按照一套真实的开发节奏设计的。从需求的第一个模糊念头，到代码合进主分支，每一步都有对应的工具接手。整个循环大概是这样：
 
