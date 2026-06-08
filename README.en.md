@@ -22,6 +22,11 @@ point back into this repo, never a real directory).
 | Skill | What it does | Docs |
 |-------|--------------|------|
 | [`afk-agent`](skills/afk-agent/) | AFK development orchestrator for GitHub issues: scans ready-for-agent work, plans by dependency/priority, implements each issue via TDD, verifies acceptance criteria (L1 grep / L2 test / L3 browser / L4 human-only), ticks verified boxes, and opens auto-merge PRs into a shared batch branch | [README](skills/afk-agent/README.en.md) |
+| [`grill-me`](skills/grill-me/) | Interview you relentlessly about a plan/design, resolving each branch of the decision tree until shared understanding | — |
+| [`grill-with-docs`](skills/grill-with-docs/) | Grill a plan against the project's domain model and recorded decisions, updating CONTEXT.md / ADRs inline | — |
+| [`to-prd`](skills/to-prd/) | Turn the current conversation context into a PRD and publish it to the issue tracker | — |
+| [`to-issues`](skills/to-issues/) | Break a plan/spec/PRD into independently-grabbable issues using tracer-bullet vertical slices | — |
+| [`tdd`](skills/tdd/) | Test-driven development: red-green-refactor loop | — |
 
 ## Add a new skill
 

@@ -20,6 +20,11 @@ cd ~/vstack && ./install.sh
 | 技能 | 说明 | 文档 |
 |------|------|------|
 | [`afk-agent`](skills/afk-agent/) | GitHub issue 的 AFK 开发编排器：扫描 ready-for-agent issue、按依赖/优先级排程、逐个 TDD 实现、验证验收标准（L1 grep / L2 test / L3 browser / L4 人工）、勾选已验证项、开 auto-merge PR 到共享 batch 分支 | [README](skills/afk-agent/README.md) |
+| [`grill-me`](skills/grill-me/) | 对计划/设计反复追问，逐个决策分支推敲，直到达成共识 | — |
+| [`grill-with-docs`](skills/grill-with-docs/) | 结合项目领域模型与已记录决策来 grill 计划，并就地更新 CONTEXT.md / ADR | — |
+| [`to-prd`](skills/to-prd/) | 把当前对话上下文整理成 PRD 并发布到 issue tracker | — |
+| [`to-issues`](skills/to-issues/) | 用 tracer-bullet 垂直切片把计划/spec/PRD 拆成可独立认领的 issue | — |
+| [`tdd`](skills/tdd/) | 测试驱动开发：red-green-refactor 循环 | — |
 
 ## 加一个新技能
 
