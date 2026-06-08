@@ -72,7 +72,7 @@ When executing a plan:
 - max parallel issues per wave: 2
 - after lint/test/build pass, the AC verification step runs:
   - L1 (grep/AST) and L2 (test) ACs are verified via concrete evidence references
-  - L3 (browser) ACs are verified via headless browser snapshot/screenshot
+  - L3 (browser) ACs are verified via headless browser snapshot/screenshot, which is then committed to the task branch under `.afk/evidence/issue-<n>/` and embedded into the AC verification report (gate: an L3 screenshot that cannot be committed and embedded fails the AC — see `references/AC_VERIFICATION.md` "L3 evidence upload")
   - L4 (human-only) ACs are flagged in the PR body and never auto-ticked
 - if **any** L1/L2/L3 AC fails → no PR, label `agent-failed`, comment failure details
 - if all L1/L2/L3 AC pass → flip the matching `- [ ]` to `- [x]` on the issue body, post AC verification report, push branch, open PR with `gh pr merge --auto --squash --base agent/<theme-slug>`

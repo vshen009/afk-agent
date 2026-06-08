@@ -38,11 +38,15 @@ node ~/.codex/skills/afk-agent/scripts/scan-ready-issues.mjs --self-test
 1. **扫描（scan）**——筛选带 `ready-for-agent`、无开放阻塞、含「构建什么」与验收标准 checklist 的 issue。
 2. **认领（claim）**——打上 `agent-claimed` / `agent-in-progress` 标签并发认领评论，作为并发锁。
 3. **TDD**——只针对**未完成**的验收项（`- [ ]`）写红测试，再做最小实现转绿。
-4. **验证验收标准（AC verify）**——逐项分级核验：**L1** grep/AST、**L2** 测试、**L3** 无头浏览器、**L4** 仅人工（永不自动勾选）。
+4. **验证验收标准（AC verify）**——逐项分级核验：**L1** grep/AST、**L2** 测试、**L3** 无头浏览器（截图会提交进任务分支并内嵌进核验报告）、**L4** 仅人工（永不自动勾选）。
 5. **勾选复选框**——只把核验通过的 `- [ ]` 翻成 `- [x]`，并回贴一份带证据的核验报告。
 6. **自动合并 PR**——把任务分支 PR 合入批次分支 `agent/<theme-slug>`（PR 体内含 `Closes #<issue>`）。
 
 **扫描器自己绝不推送；批次分支 → `main` 始终是人工 review 与合并。** 任一 L1/L2/L3 核验失败则不建 PR、打 `agent-failed`、不勾任何复选框。
+
+## L3 证据
+
+L3（浏览器可观察）验收项靠截图证明。为了让证据在 GitHub 上真正可见——而不是一行指向本地、对 reviewer 不存在的路径——每张通过的 L3 截图都会**提交进任务分支**的 `.afk/evidence/issue-<n>/` 下，并通过钉到 commit 的 raw URL + blob 永久链接**内嵌进 AC 核验报告**。这是一道硬门禁：截图已提交且已在报告里被引用，对应 L3 才会被勾选；做不到就和其他验收项一样判失败。公开仓库会在评论里内嵌渲染该图，私有仓库则在 PR 的 **Files changed** 标签页及 blob 链接里查看。路径与 URL 由 [`scripts/evidence.mjs`](scripts/evidence.mjs) 生成。
 
 ## `.afkignore`
 

@@ -21,10 +21,10 @@ Runs after `pnpm lint && pnpm test && pnpm build` (or the repo's overridden test
 |---|---|---|
 | **L1** grep/AST | Match a literal symbol, file content, or AST shape in source | file:line, matched snippet |
 | **L2** test | A passing test asserts this behavior | test file:line, test name, test output |
-| **L3** browser | Headless browser / preview reproduces the behavior | screenshot path, snapshot diff, viewport |
+| **L3** browser | Headless browser / preview reproduces the behavior | screenshot committed to the task branch under `.afk/evidence/issue-<n>/`, embedded via a SHA-pinned raw URL + blob link, viewport |
 | **L4** human-only | Not executed by the agent | flagged in PR body for human |
 
-Evidence references are stored in the AC verification report comment posted to the issue.
+Evidence references are stored in the AC verification report comment posted to the issue. L3 screenshots are committed to the task branch and embedded into that report (see `AC_VERIFICATION.md` "L3 evidence upload"); an L3 AC whose screenshot is not committed and embedded is treated as a verification failure.
 
 ## Tick-off Mechanics
 
@@ -55,6 +55,7 @@ Every task PR description includes:
 - first failing test behavior
 - test commands that passed
 - AC verification rollup: `L1 N · L2 N · L3 N · L4 N (human-only flagged)`
+- for each L3 AC, a link to its committed screenshot evidence (`.afk/evidence/issue-<n>/…`)
 - explicit list of L4 ACs that need human verification before the batch branch merges to main
 
 ## Exception Rule
