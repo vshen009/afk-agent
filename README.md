@@ -27,6 +27,8 @@ cd ~/vstack && ./install.sh
 | [`tdd`](skills/tdd/) | 测试驱动开发：red-green-refactor 循环 | — |
 | [`diagnose`](skills/diagnose/) | 硬骨头 bug / 性能回归的纪律化诊断循环：复现 → 最小化 → 假设 → 埋点 → 修复 → 回归测试 | — |
 | [`handoff`](skills/handoff/) | 把当前对话压缩成交接文档，供另一个 agent 接手 | — |
+| [`cn-humanizer`](skills/cn-humanizer/) | 中文文本拟人化 + 英中翻译去翻译腔：识别 20+ 种中文 AI 写作特征，改写成自然母语表达 | — |
+| [`humanizer-zh`](skills/humanizer-zh/) | 中文长文去 AI 味：博客/随笔/非虚构等，含多位作者风格语料（references/voices/） | — |
 
 ## 加一个新技能
 

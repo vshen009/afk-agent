@@ -29,6 +29,8 @@ point back into this repo, never a real directory).
 | [`tdd`](skills/tdd/) | Test-driven development: red-green-refactor loop | — |
 | [`diagnose`](skills/diagnose/) | Disciplined diagnosis loop for hard bugs / perf regressions: reproduce → minimise → hypothesise → instrument → fix → regression-test | — |
 | [`handoff`](skills/handoff/) | Compact the current conversation into a handoff document for another agent to pick up | — |
+| [`cn-humanizer`](skills/cn-humanizer/) | Humanize Chinese text + de-translationese for EN→ZH: detects 20+ AI-writing tells, rewrites into natural native phrasing | — |
+| [`humanizer-zh`](skills/humanizer-zh/) | Remove the AI flavour from long-form Chinese prose (blogs/essays/nonfiction); ships author-voice corpora under references/voices/ | — |
 
 ## Add a new skill
 
