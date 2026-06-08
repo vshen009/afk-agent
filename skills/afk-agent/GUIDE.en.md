@@ -1,6 +1,6 @@
 # afk-agent
 
-[中文 →](README.md)
+[中文 →](GUIDE.md)
 
 > An **AFK (away-from-keyboard) development orchestrator** for GitHub issues: it scans "ready-for-agent" work, plans by dependency and priority, runs TDD per issue, verifies acceptance criteria (AC), ticks verified boxes on the issue, and opens auto-merge PRs into a shared **batch branch**.
 

@@ -1,6 +1,6 @@
 # afk-agent
 
-[English →](README.en.md)
+[English →](GUIDE.en.md)
 
 > 面向 GitHub issue 的 **AFK（离开键盘）开发编排器**：扫描「就绪可交给 agent」的 issue，按依赖与优先级排期，逐个 issue 跑 TDD 实现、验证验收标准（AC）、在 issue 上勾选已验证项，并开启自动合并到共享**批次分支**的 PR。
 
