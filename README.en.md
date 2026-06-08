@@ -6,6 +6,10 @@
 reach for, each self-contained and discoverable by both **Codex** (`~/.codex/skills/`)
 and **Claude** (`~/.claude/skills/`).
 
+Some of these skills I wrote myself; others are collected from the community and around
+the web. Not all original — just a toolkit I find handy. Copyright for collected skills
+stays with their original authors.
+
 ## Install
 
 ```bash

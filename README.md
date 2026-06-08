@@ -2,8 +2,10 @@
 
 > 📖 English: [`README.en.md`](README.en.md)
 
-**vstack** 是一个个人 agent 技能集合仓库。一个 git 仓库装一堆我自己顺手的技能，
-每个技能各自独立、可同时被 **Codex**（`~/.codex/skills/`）和 **Claude**（`~/.claude/skills/`）发现。
+**vstack** 是我自己的 agent 技能集合仓库。一个 git 仓库装着一堆顺手的技能，
+每个都各自独立，**Codex**（`~/.codex/skills/`）和 **Claude**（`~/.claude/skills/`）都能发现。
+
+这里的技能有些是我自己写的，有些是从社区和网上收集来的——不全是原创，只是我用着比较顺手的一套工具集。原作者的版权归原作者。
 
 ## 安装
 
@@ -12,8 +14,8 @@ git clone https://github.com/vshen009/vstack.git ~/vstack
 cd ~/vstack && ./install.sh
 ```
 
-`install.sh` 会把 `skills/` 下每个技能软链接进两个发现目录。可重复运行（幂等）。
-卸载用 `./uninstall.sh`（只删指回本仓库的软链，不碰真实目录）。
+`install.sh` 会把 `skills/` 下的每个技能软链进这两个发现目录，重复跑也没事（幂等）。
+卸载用 `./uninstall.sh`，它只删指回本仓库的软链，不碰真实目录。
 
 ## 技能索引
 
