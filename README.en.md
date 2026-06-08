@@ -27,6 +27,7 @@ point back into this repo, never a real directory).
 | [`to-prd`](skills/to-prd/) | Turn the current conversation context into a PRD and publish it to the issue tracker | — |
 | [`to-issues`](skills/to-issues/) | Break a plan/spec/PRD into independently-grabbable issues using tracer-bullet vertical slices | — |
 | [`tdd`](skills/tdd/) | Test-driven development: red-green-refactor loop | — |
+| [`diagnose`](skills/diagnose/) | Disciplined diagnosis loop for hard bugs / perf regressions: reproduce → minimise → hypothesise → instrument → fix → regression-test | — |
 
 ## Add a new skill
 
