@@ -1,5 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
+import { mkdtempSync, rmSync, symlinkSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import {
   ownerRepoFromRemote,
@@ -140,4 +145,40 @@ test("stageEvidence refuses to stage a missing screenshot", () => {
       ),
     /screenshot not found/,
   );
+});
+
+// The SKILL.md-documented invocation goes through a symlinked skill dir
+// (~/.claude/skills/afk-agent -> repo). The CLI gate must still fire when
+// process.argv[1] is a symlink whose realpath is this module.
+function runCliVia(entryPath, args = []) {
+  try {
+    const stdout = execFileSync(process.execPath, [entryPath, ...args], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    return { status: 0, stdout, stderr: "" };
+  } catch (err) {
+    return { status: err.status, stdout: err.stdout ?? "", stderr: err.stderr ?? "" };
+  }
+}
+
+const EVIDENCE_MJS = fileURLToPath(new URL("./evidence.mjs", import.meta.url));
+
+test("CLI runs when invoked directly (prints usage and exits 1 without a subcommand)", () => {
+  const { status, stderr } = runCliVia(EVIDENCE_MJS);
+  assert.equal(status, 1);
+  assert.match(stderr, /Usage:/);
+});
+
+test("CLI runs when invoked through a symlink (prints usage and exits 1 without a subcommand)", () => {
+  const dir = mkdtempSync(join(tmpdir(), "evidence-symlink-"));
+  try {
+    const link = join(dir, "evidence-link.mjs");
+    symlinkSync(EVIDENCE_MJS, link);
+    const { status, stderr } = runCliVia(link);
+    assert.equal(status, 1, "CLI gate must fire through a symlinked argv[1], not silently exit 0");
+    assert.match(stderr, /Usage:/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });

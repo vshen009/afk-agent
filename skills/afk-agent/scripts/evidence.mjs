@@ -18,7 +18,7 @@
 // always carries both the inline embed and the blob link.
 
 import { execFileSync } from "node:child_process";
-import { copyFileSync, mkdirSync, existsSync } from "node:fs";
+import { copyFileSync, mkdirSync, existsSync, realpathSync } from "node:fs";
 import { dirname } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -208,5 +208,15 @@ function runCli(argv) {
   process.exitCode = 1;
 }
 
-const invokedDirectly = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
-if (invokedDirectly) runCli(process.argv.slice(2));
+// Resolve argv[1] through symlinks before comparing: the skill dir is often a
+// symlink (~/.claude/skills/afk-agent -> repo), while import.meta.url is the
+// realpath — a naive comparison would silently skip the CLI and exit 0.
+function invokedDirectly() {
+  if (!process.argv[1]) return false;
+  try {
+    return import.meta.url === pathToFileURL(realpathSync(process.argv[1])).href;
+  } catch {
+    return false;
+  }
+}
+if (invokedDirectly()) runCli(process.argv.slice(2));
