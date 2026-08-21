@@ -1,0 +1,4 @@
+interface:
+  display_name: "Image2 API"
+  short_description: "Generate and edit images with configurable Image2 APIs"
+  default_prompt: "Use $image2-api to generate or edit an image through my configured Image2 API."

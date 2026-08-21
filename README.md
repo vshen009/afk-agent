@@ -88,6 +88,7 @@ cd ~/vstack && ./install.sh
 | [`handoff`](skills/handoff/) | 把当前对话压缩成交接文档，供另一个 agent 接手 | — |
 | [`cn-humanizer`](skills/cn-humanizer/) | 中文文本拟人化 + 英中翻译去翻译腔：识别 20+ 种中文 AI 写作特征，改写成自然母语表达 | — |
 | [`humanizer-zh`](skills/humanizer-zh/) | 中文长文去 AI 味：博客/随笔/非虚构等，含多位作者风格语料（references/voices/） | — |
+| [`image2-api`](skills/image2-api/) | 通用 OpenAI 兼容 Image2 客户端：支持文生图、图生图与蒙版编辑，可配置接口地址、鉴权和模型 | [README](skills/image2-api/README.md) |
 
 ## 加一个新技能
 

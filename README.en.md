@@ -35,6 +35,7 @@ point back into this repo, never a real directory).
 | [`handoff`](skills/handoff/) | Compact the current conversation into a handoff document for another agent to pick up | — |
 | [`cn-humanizer`](skills/cn-humanizer/) | Humanize Chinese text + de-translationese for EN→ZH: detects 20+ AI-writing tells, rewrites into natural native phrasing | — |
 | [`humanizer-zh`](skills/humanizer-zh/) | Remove the AI flavour from long-form Chinese prose (blogs/essays/nonfiction); ships author-voice corpora under references/voices/ | — |
+| [`image2-api`](skills/image2-api/) | Provider-neutral OpenAI-compatible Image2 client for generation, image-to-image, and masked edits with configurable endpoints, auth, and model | [README](skills/image2-api/README.md) |
 
 ## Add a new skill
 
