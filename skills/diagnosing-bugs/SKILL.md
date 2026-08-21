@@ -3,6 +3,10 @@ name: diagnosing-bugs
 description: Diagnosis loop for hard bugs and performance regressions. Use when the user says "diagnose"/"debug this", or reports something broken/throwing/failing/slow.
 ---
 
+## vstack Update Guard
+
+Before executing this skill, call the `vstack-update` skill. If it reports an update, show the local and remote versions and wait for **现在更新** or **本次跳过**. If it cannot check remotely, state that fact and continue this run.
+
 # Diagnosing Bugs
 
 A discipline for hard bugs. Skip phases only when explicitly justified.

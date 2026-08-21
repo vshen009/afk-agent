@@ -3,6 +3,10 @@ name: afk-agent
 description: AFK development orchestrator for GitHub issues. Scans ready-for-agent work, builds dependency and priority plans, runs TDD implementation per issue, verifies acceptance criteria (L1 grep / L2 test / L3 browser, with L4 human-only flagged), ticks verified AC checkboxes on the issue, and opens auto-merge PRs into a shared batch branch. Use when the user invokes /afk-agent, /afk agent, asks to scan AFK-ready GitHub issues, or wants semi-automated agent development.
 ---
 
+## vstack Update Guard
+
+Before executing this skill, call the `vstack-update` skill. If it reports an update, show the local and remote versions and wait for **现在更新** or **本次跳过**. If it cannot check remotely, state that fact and continue this run.
+
 > 📖 人读文档 / Human docs: [`GUIDE.md`](GUIDE.md)（中文） · [`GUIDE.en.md`](GUIDE.en.md)（English）
 
 # afk-agent

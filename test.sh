@@ -21,6 +21,17 @@ for skill_path in "$SKILLS_DIR"/*/; do
   tested=$((tested + 1))
 done
 
+if [[ -d "$SKILLS_DIR/vstack-update/tests" ]]; then
+  echo "==> testing vstack-update"
+  if python3 -m unittest discover -s "$SKILLS_DIR/vstack-update/tests"; then
+    echo "    ok"
+  else
+    echo "    FAILED"
+    failed=$((failed + 1))
+  fi
+  tested=$((tested + 1))
+fi
+
 echo ""
 echo "Tested $tested skill(s), $failed failed."
 [[ "$failed" -eq 0 ]]

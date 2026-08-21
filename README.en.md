@@ -10,6 +10,10 @@ Some of these skills I wrote myself; others are collected from the community and
 the web. Not all original — just a toolkit I find handy. Copyright for collected skills
 stays with their original authors.
 
+## Attribution
+
+`grill-me`, `grill-with-docs`, `grilling`, `domain-modeling`, `to-spec`, `to-tickets`, `tdd`, `diagnosing-bugs`, and `handoff` originate from or are synced from [Matt Pocock's skills repository](https://github.com/mattpocock/skills). This repository preserves their original copyright and supplies compatibility entry points where useful.
+
 ## Install
 
 ```bash
@@ -20,6 +24,25 @@ cd ~/vstack && ./install.sh
 `install.sh` symlinks every skill under `skills/` into both discovery dirs. Idempotent —
 re-run any time. Use `./uninstall.sh` to remove the links (it only deletes symlinks that
 point back into this repo, never a real directory).
+
+On Windows, run the following from the vstack checkout:
+
+```powershell
+.\install.ps1
+```
+
+It prefers directory symlinks and falls back to directory junctions when symlink permission is unavailable. Existing real skill directories are moved to `~/.vstack-backups/<timestamp>/`, never deleted; use `.\install.ps1 -WhatIfMode` to preview the migration.
+
+## Version checks and updates
+
+Every vstack skill checks the local `main` version against `origin/main` before it runs and displays the commit SHA, date, and subject:
+
+- Current: continue normally.
+- Update available: choose **Update now** or **Skip this run**.
+- Update now: runs `git pull --ff-only origin main` only from a clean `main` checkout.
+- Remote unavailable: reports the failed check and continues, so offline work is not blocked.
+
+The shared [`vstack-update`](skills/vstack-update/) guard implements this behavior for every skill.
 
 ## Skill index
 

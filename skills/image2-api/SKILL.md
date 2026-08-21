@@ -3,6 +3,10 @@ name: image2-api
 description: Generate or edit raster images through any OpenAI-compatible Image2 API with a configurable base URL, API key, authentication header, and model. Use when the user asks for 通用生图、Image2 生图、图生图、图片编辑、自定义生图接口、切换生图 API 前缀，or wants one reusable gpt-image-2 client instead of a provider-specific skill.
 ---
 
+## vstack Update Guard
+
+Before executing this skill, call the `vstack-update` skill. If it reports an update, show the local and remote versions and wait for **现在更新** or **本次跳过**. If it cannot check remotely, state that fact and continue this run.
+
 # Image2 API
 
 Use this skill as a provider-neutral client for OpenAI-compatible image generation and editing APIs. Prefer a provider-specific skill when the user explicitly names one and that skill exists.

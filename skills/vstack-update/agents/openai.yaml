@@ -1,0 +1,4 @@
+interface:
+  display_name: "vstack Update Guard"
+  short_description: "Check and safely update the vstack skill collection"
+  default_prompt: "Use $vstack-update to check whether my installed vstack skills are current."

@@ -3,6 +3,10 @@ name: humanizer-zh
 description: Remove signs of AI-generated, translated, or overly mechanical Chinese prose. Use when rewriting, editing, or reviewing Chinese blog posts, essays, newsletters, nonfiction chapters, product analysis, or long-form commentary so they read like native Chinese writing. Trigger this skill when the user asks to 「去 AI 味」, 「润色成中文母语表达」, 「改得像博客或书里写的」, 「减少翻译腔」, or similar. Detect and fix translation-like phrasing, empty big words, formulaic contrast frames, sloganized endings, list inflation, punctuation misuse, terminology/casing inconsistencies, and paragraph rhythm that feels assembled rather than written.
 ---
 
+## vstack Update Guard
+
+Before executing this skill, call the `vstack-update` skill. If it reports an update, show the local and remote versions and wait for **现在更新** or **本次跳过**. If it cannot check remotely, state that fact and continue this run.
+
 # 中文去 AI 味
 
 ## Overview

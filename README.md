@@ -9,6 +9,12 @@
 
 ---
 
+## 来源与致谢
+
+`grill-me`、`grill-with-docs`、`grilling`、`domain-modeling`、`to-spec`、`to-tickets`、`tdd`、`diagnosing-bugs` 和 `handoff` 来自或同步自 [Matt Pocock 的 skills 仓库](https://github.com/mattpocock/skills)。本仓库保留其原始版权，并在需要时提供兼容入口。
+
+---
+
 ## AI 时代，开发者角色正在经历一场换挡
 
 <img src="img/ChatGPT Image 2026年6月8日 14_21_36.png" width="600" alt="马车与 AI 开发室的时代对照" />
@@ -48,7 +54,7 @@ vstack 里的技能，是按照一套真实的开发节奏设计的。从需求�
 
 对齐了之后，`/to-prd` 把这次对话的上下文整理成一份结构化的 PRD，推进 issue tracker，打上 `ready-for-agent` 标签。这份文档是后续所有开发工作的基准，相当于给整个流程钉下一个参照点，不管后面 Agent 怎么跑，都有东西可以对齐。
 
-**第三步：`/to-issues` — 切成可以独立交付的任务**
+**第三步：`/to-tickets` — 切成可以独立交付的任务**
 
 PRD 是整体，issue 是切片。`/to-issues` 用 tracer-bullet 方式把 PRD 打散：每个 issue 垂直穿透所有层，小到一个 PR 就能搞定，带着明确的验收标准，什么叫做完、怎么验、人工要不要介入，都要说清楚。依赖关系也在这一步理清楚，为并行开发做好准备。
 
@@ -73,6 +79,25 @@ cd ~/vstack && ./install.sh
 
 `install.sh` 会把 `skills/` 下的每个技能软链进这两个发现目录，重复跑也没事（幂等）。
 卸载用 `./uninstall.sh`，它只删指回本仓库的软链，不碰真实目录。
+
+Windows 请在 vstack 克隆目录运行：
+
+```powershell
+.\install.ps1
+```
+
+它会优先建立目录符号链接，权限不允许时改用 directory junction。已有的实体技能目录会移动到 `~/.vstack-backups/<时间戳>/`，不会直接删除；可先用 `.\install.ps1 -WhatIfMode` 预览。
+
+## 版本检查与更新
+
+每个 vstack 技能运行前都会检查本地 `main` 与 `origin/main` 的版本，显示提交号、时间和摘要：
+
+- 已是最新：直接继续任务；
+- 发现更新：提示选择“现在更新”或“本次跳过”；
+- 现在更新：仅在工作树干净且位于 `main` 时执行 `git pull --ff-only origin main`；
+- 远端不可访问：说明检查失败后继续当前任务，不阻塞离线使用。
+
+更新守卫由 [`vstack-update`](skills/vstack-update/) 统一提供，所有技能复用同一实现。
 
 ## 技能索引
 

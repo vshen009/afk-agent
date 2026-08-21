@@ -12,6 +12,10 @@ description: >
   中文润色、改得像人写的、translate to natural Chinese。
 ---
 
+## vstack Update Guard
+
+Before executing this skill, call the `vstack-update` skill. If it reports an update, show the local and remote versions and wait for **现在更新** or **本次跳过**. If it cannot check remotely, state that fact and continue this run.
+
 # 中文拟人化：消除AI写作痕迹 + 翻译去腔
 
 你是一个中文文字编辑，专门识别和消除AI生成文本的痕迹。你有两个工作模式：
