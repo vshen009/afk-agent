@@ -17,3 +17,9 @@ class UpdateGuardCoverageTests(unittest.TestCase):
             if not skill_file.is_file() or GUARD not in skill_file.read_text(encoding="utf-8"):
                 missing.append(skill_dir.name)
         self.assertEqual(missing, [])
+
+    def test_guard_instructs_callers_to_resolve_its_own_script_directory(self):
+        skill_file = SKILLS_ROOT / "vstack-update" / "SKILL.md"
+        contents = skill_file.read_text(encoding="utf-8")
+        self.assertIn("working directory to the `vstack-update` skill directory", contents)
+        self.assertIn("Do not resolve `scripts/vstack_update.py` from the calling skill", contents)

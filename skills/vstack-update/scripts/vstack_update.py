@@ -31,6 +31,8 @@ def run_git(repo: Path, *args: str) -> str:
     result = subprocess.run(
         ["git", "-C", str(repo), *args],
         text=True,
+        encoding="utf-8",
+        errors="replace",
         capture_output=True,
         check=False,
     )
@@ -46,16 +48,21 @@ def is_expected_remote(remote_url: str) -> bool:
 
 
 def fetch_remote_metadata(sha: str) -> dict:
-    gh = subprocess.run(
-        ["gh", "api", f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/commits/{sha}"],
-        text=True,
-        capture_output=True,
-        check=False,
-    )
-    if gh.returncode == 0:
-        payload = json.loads(gh.stdout)
-        commit = payload["commit"]
-        return {"sha": payload["sha"], "date": commit["author"]["date"], "subject": commit["message"].splitlines()[0]}
+    try:
+        gh = subprocess.run(
+            ["gh", "api", f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/commits/{sha}"],
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            capture_output=True,
+            check=False,
+        )
+        if gh.returncode == 0 and gh.stdout:
+            payload = json.loads(gh.stdout)
+            commit = payload["commit"]
+            return {"sha": payload["sha"], "date": commit["author"]["date"], "subject": commit["message"].splitlines()[0]}
+    except (OSError, json.JSONDecodeError, KeyError, TypeError):
+        pass
 
     url = f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/commits/{sha}"
     request = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json", "User-Agent": "vstack-update"})
@@ -99,7 +106,7 @@ def check_repository(repo: Path, git: Callable[..., str] = run_git, metadata_fet
     try:
         remote.update(metadata_fetcher(remote_sha))
         remote["short_sha"] = remote["sha"][:12]
-    except (urllib.error.URLError, urllib.error.HTTPError, KeyError, ValueError) as exc:
+    except (OSError, urllib.error.URLError, urllib.error.HTTPError, KeyError, TypeError, ValueError) as exc:
         metadata_error = str(exc)
 
     status = "up_to_date" if local["sha"] == remote["sha"] else "update_available"

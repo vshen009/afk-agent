@@ -1,5 +1,7 @@
 import importlib.util
+import json
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 
@@ -38,6 +40,22 @@ def metadata(sha):
 
 
 class VstackUpdateTests(unittest.TestCase):
+    def test_gh_metadata_uses_utf8_on_windows(self):
+        payload = {"sha": REMOTE_SHA, "commit": {"author": {"date": "2026-08-22T00:00:00Z"}, "message": "包含 Unicode 的提交"}}
+        completed = type("Completed", (), {"returncode": 0, "stdout": json.dumps(payload, ensure_ascii=False)})()
+        with patch.object(MODULE.subprocess, "run", return_value=completed) as run:
+            result = MODULE.fetch_remote_metadata(REMOTE_SHA)
+        self.assertEqual(result["subject"], "包含 Unicode 的提交")
+        self.assertEqual(run.call_args.kwargs["encoding"], "utf-8")
+        self.assertEqual(run.call_args.kwargs["errors"], "replace")
+
+    def test_metadata_failure_is_reported_without_crashing_check(self):
+        def broken_metadata(_sha):
+            raise UnicodeDecodeError("gbk", b"\x80", 0, 1, "invalid byte")
+        report = MODULE.check_repository(Path("/repo"), fake_git_factory(), broken_metadata)
+        self.assertEqual(report["status"], "up_to_date")
+        self.assertIn("metadata_warning", report)
+
     def test_up_to_date(self):
         report = MODULE.check_repository(Path("/repo"), fake_git_factory(), metadata)
         self.assertEqual(report["status"], "up_to_date")
