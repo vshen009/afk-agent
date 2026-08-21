@@ -26,12 +26,14 @@ point back into this repo, never a real directory).
 | Skill | What it does | Docs |
 |-------|--------------|------|
 | [`afk-agent`](skills/afk-agent/) | AFK development orchestrator for GitHub issues: scans ready-for-agent work, plans by dependency/priority, implements each issue via TDD, verifies acceptance criteria (L1 grep / L2 test / L3 browser / L4 human-only), ticks verified boxes, and opens auto-merge PRs into a shared batch branch | [GUIDE](skills/afk-agent/GUIDE.en.md) |
-| [`grill-me`](skills/grill-me/) | Interview you relentlessly about a plan/design, resolving each branch of the decision tree until shared understanding | — |
-| [`grill-with-docs`](skills/grill-with-docs/) | Grill a plan against the project's domain model and recorded decisions, updating CONTEXT.md / ADRs inline | — |
-| [`to-prd`](skills/to-prd/) | Turn the current conversation context into a PRD and publish it to the issue tracker | — |
-| [`to-issues`](skills/to-issues/) | Break a plan/spec/PRD into independently-grabbable issues using tracer-bullet vertical slices | — |
+| [`grill-me`](skills/grill-me/) | Entry point for plan/design grilling; calls the `grilling` skill | — |
+| [`grilling`](skills/grilling/) | Interview in rounds over the decision-tree frontier until shared understanding | — |
+| [`grill-with-docs`](skills/grill-with-docs/) | Grill a plan using domain modeling, updating CONTEXT.md / ADRs inline | — |
+| [`domain-modeling`](skills/domain-modeling/) | Build and maintain project terminology, CONTEXT.md, and ADRs | — |
+| [`to-spec`](skills/to-spec/) | Turn already-discussed context into a specification and publish it to the issue tracker | — |
+| [`to-tickets`](skills/to-tickets/) | Break work into tracer-bullet tickets with explicit blocking edges | — |
 | [`tdd`](skills/tdd/) | Test-driven development: red-green-refactor loop | — |
-| [`diagnose`](skills/diagnose/) | Disciplined diagnosis loop for hard bugs / perf regressions: reproduce → minimise → hypothesise → instrument → fix → regression-test | — |
+| [`diagnosing-bugs`](skills/diagnosing-bugs/) | Disciplined diagnosis loop for hard bugs / perf regressions: reproduce → minimise → hypothesise → instrument → fix → regression-test | — |
 | [`handoff`](skills/handoff/) | Compact the current conversation into a handoff document for another agent to pick up | — |
 | [`cn-humanizer`](skills/cn-humanizer/) | Humanize Chinese text + de-translationese for EN→ZH: detects 20+ AI-writing tells, rewrites into natural native phrasing | — |
 | [`humanizer-zh`](skills/humanizer-zh/) | Remove the AI flavour from long-form Chinese prose (blogs/essays/nonfiction); ships author-voice corpora under references/voices/ | — |

@@ -36,7 +36,7 @@
 vstack 里的技能，是按照一套真实的开发节奏设计的。从需求的第一个模糊念头，到代码合进主分支，每一步都有对应的工具接手。整个循环大概是这样：
 
 ```
-/grill-me  →  /to-prd  →  /to-issues  →  /afk-agent
+/grill-me  →  /to-spec  →  /to-tickets  →  /afk-agent
 需求对齐       生成 PRD     拆解任务       并行开发 + 验收
 ```
 
@@ -79,12 +79,14 @@ cd ~/vstack && ./install.sh
 | 技能 | 说明 | 文档 |
 |------|------|------|
 | [`afk-agent`](skills/afk-agent/) | GitHub issue 的 AFK 开发编排器：扫描 ready-for-agent issue、按依赖/优先级排程、逐个 TDD 实现、验证验收标准（L1 grep / L2 test / L3 browser / L4 人工）、勾选已验证项、开 auto-merge PR 到共享 batch 分支 | [GUIDE](skills/afk-agent/GUIDE.md) |
-| [`grill-me`](skills/grill-me/) | 对计划/设计反复追问，逐个决策分支推敲，直到达成共识 | — |
-| [`grill-with-docs`](skills/grill-with-docs/) | 结合项目领域模型与已记录决策来 grill 计划，并就地更新 CONTEXT.md / ADR | — |
-| [`to-prd`](skills/to-prd/) | 把当前对话上下文整理成 PRD 并发布到 issue tracker | — |
-| [`to-issues`](skills/to-issues/) | 用 tracer-bullet 垂直切片把计划/spec/PRD 拆成可独立认领的 issue | — |
+| [`grill-me`](skills/grill-me/) | 计划/设计追问的入口；调用实际的 `grilling` 技能 | — |
+| [`grilling`](skills/grilling/) | 按设计树的可决策前沿分轮追问，直至达成共识 | — |
+| [`grill-with-docs`](skills/grill-with-docs/) | 结合领域建模来追问，并就地维护 CONTEXT.md / ADR | — |
+| [`domain-modeling`](skills/domain-modeling/) | 建立和维护项目术语、CONTEXT.md 与 ADR | — |
+| [`to-spec`](skills/to-spec/) | 将已讨论的上下文整理为规格说明并发布到 issue tracker | — |
+| [`to-tickets`](skills/to-tickets/) | 用 tracer-bullet 垂直切片拆为带阻塞关系的 tickets | — |
 | [`tdd`](skills/tdd/) | 测试驱动开发：red-green-refactor 循环 | — |
-| [`diagnose`](skills/diagnose/) | 硬骨头 bug / 性能回归的纪律化诊断循环：复现 → 最小化 → 假设 → 埋点 → 修复 → 回归测试 | — |
+| [`diagnosing-bugs`](skills/diagnosing-bugs/) | 硬骨头 bug / 性能回归的纪律化诊断循环：复现 → 最小化 → 假设 → 埋点 → 修复 → 回归测试 | — |
 | [`handoff`](skills/handoff/) | 把当前对话压缩成交接文档，供另一个 agent 接手 | — |
 | [`cn-humanizer`](skills/cn-humanizer/) | 中文文本拟人化 + 英中翻译去翻译腔：识别 20+ 种中文 AI 写作特征，改写成自然母语表达 | — |
 | [`humanizer-zh`](skills/humanizer-zh/) | 中文长文去 AI 味：博客/随笔/非虚构等，含多位作者风格语料（references/voices/） | — |
