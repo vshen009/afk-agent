@@ -46,6 +46,17 @@ def is_expected_remote(remote_url: str) -> bool:
 
 
 def fetch_remote_metadata(sha: str) -> dict:
+    gh = subprocess.run(
+        ["gh", "api", f"repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/commits/{sha}"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if gh.returncode == 0:
+        payload = json.loads(gh.stdout)
+        commit = payload["commit"]
+        return {"sha": payload["sha"], "date": commit["author"]["date"], "subject": commit["message"].splitlines()[0]}
+
     url = f"https://api.github.com/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/commits/{sha}"
     request = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json", "User-Agent": "vstack-update"})
     with urllib.request.urlopen(request, timeout=10) as response:
