@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23477d70'/%3E%3Cpath d='M17 18h30v7H17zm0 13h21v7H17zm0 13h26v7H17z' fill='%23f4efe5'/%3E%3C/svg%3E">
+  <title>Content to Poster · 风格与比例速查</title>
+  <style>
+    :root { --paper:#f4efe5; --ink:#20252a; --muted:#6f746f; --line:rgba(32,37,42,.14); --card:rgba(255,253,248,.9); --accent:#477d70; --shadow:0 14px 35px rgba(61,49,34,.10); }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:radial-gradient(circle at 10% 0%,rgba(205,177,137,.18),transparent 32rem),radial-gradient(circle at 100% 20%,rgba(122,164,151,.13),transparent 28rem),var(--paper); font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif; line-height:1.5; }
+    .wrap { width:min(1240px,calc(100% - 40px)); margin:0 auto; }
+    header { padding:52px 0 30px; }
+    .eyebrow { letter-spacing:.14em; text-transform:uppercase; font-size:12px; color:var(--accent); font-weight:700; }
+    h1 { margin:8px 0 10px; font-size:clamp(32px,5vw,60px); line-height:1.04; letter-spacing:-.045em; }
+    .lede { max-width:760px; margin:0; color:#4e5654; font-size:17px; }
+    .rule { height:1px; background:var(--line); margin:28px 0; }
+    .toolbar { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:20px 0 30px; }
+    input,select { border:1px solid var(--line); background:rgba(255,253,248,.75); color:var(--ink); border-radius:12px; padding:11px 13px; font:inherit; outline:none; }
+    input { min-width:min(360px,100%); flex:1; }
+    input:focus,select:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(71,125,112,.13); }
+    .section-head { display:flex; justify-content:space-between; align-items:end; gap:16px; margin:32px 0 14px; }
+    h2 { margin:0; font-size:25px; letter-spacing:-.02em; }
+    .count { color:var(--muted); font-size:13px; }
+    .style-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+    .style-card { position:relative; overflow:hidden; background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:18px 18px 17px; display:flex; flex-direction:column; min-height:260px; }
+    .style-card::before { content:""; display:block; position:absolute; inset:0 auto 0 0; width:6px; background:var(--c1); }
+    .card-top { display:flex; justify-content:space-between; gap:12px; padding-left:7px; }
+    .style-name { font-weight:800; font-size:18px; line-height:1.2; }
+    .style-id { color:var(--muted); font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:11px; margin-top:5px; overflow-wrap:anywhere; }
+    .density { border-radius:999px; padding:4px 9px; background:rgba(71,125,112,.14); color:#39413f; height:fit-content; white-space:nowrap; font-size:11px; font-weight:700; }
+    .best { margin:15px 0 11px 7px; display:flex; flex-wrap:wrap; gap:6px; }
+    .tag { border:1px solid var(--line); border-radius:999px; padding:3px 8px; font-size:11px; color:#565d59; background:rgba(255,255,255,.45); }
+    .swatches { display:flex; gap:6px; margin:auto 0 10px 7px; }
+    .swatch { width:30px; height:16px; border-radius:5px; border:1px solid rgba(0,0,0,.1); }
+    .risk { margin:0 0 0 7px; padding-top:10px; border-top:1px dashed var(--line); color:#737772; font-size:12px; }
+    .reference { margin:14px 0 0 7px; border-radius:10px; overflow:hidden; border:1px solid var(--line); }
+    .reference img { width:100%; max-height:230px; object-fit:cover; display:block; }
+    .reference figcaption { padding:6px 9px; color:var(--muted); font-size:11px; background:rgba(255,255,255,.65); }
+    .no-ref { margin:14px 0 0 7px; padding:10px; border:1px dashed var(--line); border-radius:10px; color:var(--muted); font-size:11px; }
+    .visual-demo { position:relative; height:132px; margin:14px 0 0 7px; overflow:hidden; border:1px solid var(--line); border-radius:10px; background:var(--d0); color:var(--d1); padding:14px; }
+    .demo-kicker { width:30%; height:4px; background:var(--d2); border-radius:8px; opacity:.9; }
+    .demo-title { width:66%; height:11px; background:var(--d1); border-radius:2px; margin-top:10px; }
+    .demo-grid { position:absolute; left:14px; right:14px; bottom:14px; display:grid; grid-template-columns:1.15fr .85fr; gap:8px; }
+    .demo-box { height:48px; border:1.5px solid var(--d1); border-radius:7px; background:color-mix(in srgb,var(--d2) 20%,transparent); padding:8px; }
+    .demo-box::before,.demo-box::after { content:""; display:block; height:3px; background:var(--d1); opacity:.55; margin-bottom:6px; width:80%; }
+    .demo-box::after { width:54%; opacity:.28; }
+    .visual-demo[data-style="neo-brutalist"] .demo-box,.visual-demo[data-style="bauhaus-geometric"] .demo-title { border-radius:0; }
+    .visual-demo[data-style="luxury-minimal"] { padding:20px; }
+    .visual-demo[data-style="luxury-minimal"] .demo-grid { grid-template-columns:1fr; left:20px; right:50%; }
+    .visual-demo[data-style="cyber-neon"],.visual-demo[data-style="data-tech"],.visual-demo[data-style="cinematic-key-art"],.visual-demo[data-style="japanese-bubble-city-pop"] { box-shadow:inset 0 0 32px color-mix(in srgb,var(--d2) 24%,transparent); }
+    .visual-demo[data-style="hand-drawn-knowledge-diagram"] .demo-box { border-style:dashed; transform:rotate(-.5deg); }
+    .demo-label { position:absolute; top:11px; right:12px; font-size:9px; opacity:.58; letter-spacing:.08em; text-transform:uppercase; }
+    .ratio-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
+    .ratio-card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px; box-shadow:0 8px 22px rgba(61,49,34,.07); }
+    .ratio-visual { height:120px; display:grid; place-items:center; background:#ece4d8; border-radius:11px; margin-bottom:13px; }
+    .ratio-box { width:var(--rw); height:var(--rh); max-width:82%; max-height:88%; border:2px solid #2d3634; border-radius:5px; background:linear-gradient(135deg,rgba(71,125,112,.22),rgba(213,170,106,.18)); box-shadow:4px 4px 0 rgba(32,37,42,.1); }
+    .ratio-title { display:flex; justify-content:space-between; font-weight:800; font-size:19px; }
+    .ratio-size { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; color:var(--accent); font-size:12px; }
+    .ratio-use { margin:7px 0 0; color:#666c67; font-size:13px; }
+    .notice { margin-top:16px; border:1px solid #d5c6ac; border-radius:14px; padding:14px 16px; background:rgba(250,242,224,.8); color:#665640; font-size:13px; }
+    .guide { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; }
+    .guide-item { background:rgba(255,253,248,.62); border:1px solid var(--line); border-radius:14px; padding:15px; }
+    .guide-item strong { display:block; margin-bottom:5px; }
+    .guide-item span { color:#656b66; font-size:13px; }
+    footer { margin:44px 0 34px; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); font-size:12px; }
+    @media (max-width:640px) { .wrap{width:min(100% - 24px,1240px)} header{padding-top:32px} .style-grid{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="eyebrow">content-to-poster / quick reference</div>
+      <h1>风格 × 比例<br>一页速查</h1>
+      <p class="lede">先看内容密度和语气，再选视觉系统；最后用比例决定阅读节奏。页面内容同步自技能目录中的 <code>references/styles.json</code> 与渲染脚本。</p>
+      <div class="rule"></div>
+      <div class="toolbar"><input id="search" type="search" placeholder="搜索风格、用途或关键词…" aria-label="搜索风格"><select id="density" aria-label="按密度筛选"><option value="all">全部密度</option><option value="low">低密度</option><option value="low-to-medium">低—中密度</option><option value="medium">中密度</option><option value="medium-to-high">中—高密度</option><option value="high">高密度</option></select><span class="count" id="style-count"></span></div>
+    </header>
+    <section aria-labelledby="styles-title"><div class="section-head"><h2 id="styles-title">目前支持的风格</h2><span class="count">共 16 种，可在 poster-plan.json 的 style 字段使用 ID</span></div><div class="style-grid" id="style-grid"></div></section>
+    <section aria-labelledby="ratios-title"><div class="section-head"><h2 id="ratios-title">目前支持的比例</h2><span class="count">默认尺寸来自 scripts/content_to_poster.py</span></div><div class="ratio-grid" id="ratio-grid"></div><div class="notice"><strong>比例提示：</strong>手绘知识图解风格文案还提到 5:4、4:3、21:9，但当前计划校验器尚未注册这三种比例。页面将它们保留为“待扩展”，当前实际可用的仍是上面 6 种。</div></section>
+    <section aria-labelledby="guide-title"><div class="section-head"><h2 id="guide-title">怎么选</h2><span class="count">三步快速判断</span></div><div class="guide"><div class="guide-item"><strong>内容很密、要讲清楚</strong><span>优先 hand-drawn-knowledge-diagram、editorial-swiss 或 data-tech。</span></div><div class="guide-item"><strong>需要一张长图传播</strong><span>优先 9:16；内容超过 4–6 个模块时考虑 9:21。</span></div><div class="guide-item"><strong>项目同步、风险提醒</strong><span>优先 office-project-update，使用高密度卡片和清晰状态层级。</span></div><div class="guide-item"><strong>需要强视觉主角</strong><span>优先 cinematic-key-art 或 luxury-minimal，并减少正文。</span></div></div></section>
+    <footer>页面位置：skills/content-to-poster/style-catalog.html · 示例图来自 assets/references/ · 最后整理：2026-08-27</footer>
+  </main>
+  <script>
+    const styles = [
+      {id:'editorial-swiss',name:'Swiss Editorial',density:'high',best:['education','business','reports','general-purpose','dense copy'],risk:'可能偏机构化；需要一个有人味或出其不意的视觉焦点。',colors:['#F4F0E8','#20252A','#2B5CAA']},
+      {id:'warm-editorial',name:'Warm Editorial',density:'medium',best:['lifestyle','culture','personal essays','wellness','books'],risk:'米色之间对比太低会影响阅读。',colors:['#F4E9D8','#9A4F3C','#5F6648']},
+      {id:'neo-brutalist',name:'Neo Brutalist',density:'medium',best:['youth culture','provocative opinions','creative events','bold launches'],risk:'强烈的比例和对比可能压过细腻内容。',colors:['#111111','#F7F3EB','#D8FF2B']},
+      {id:'bauhaus-geometric',name:'Bauhaus Geometric',density:'medium',best:['design','architecture','education','systems','creative workshops'],risk:'几何元素可能与数据型正文争夺注意力。',colors:['#F6EFE3','#D84B3E','#F3C548','#3567B1']},
+      {id:'new-chinese',name:'New Chinese Editorial',density:'medium',best:['Chinese culture','festivals','heritage brands','literature','tea and food'],risk:'传统符号过多会让现代主题像旅游广告。',colors:['#F4EEE2','#1C1C1C','#B63A2B']},
+      {id:'cyber-neon',name:'Cyber Neon',density:'low-to-medium',best:['technology','gaming','music','future events','AI products'],risk:'发光和纹理会伤害小字号可读性。',colors:['#090F22','#22D3EE','#A855F7']},
+      {id:'data-tech',name:'Data Tech Editorial',density:'high',best:['research','data','finance','B2B technology','comparisons'],risk:'装饰性图表可能被误认为来源数据。',colors:['#101A33','#E8EDF5','#2FAE9B']},
+      {id:'luxury-minimal',name:'Luxury Minimal',density:'low',best:['premium products','fashion','hospitality','beauty','invitations'],risk:'不适合长列表或复杂教程。',colors:['#161616','#F4EFE4','#9B8B76']},
+      {id:'collage-zine',name:'Editorial Collage Zine',density:'medium',best:['arts','music','community','youth culture','opinion'],risk:'叠层可能遮挡精确文案或削弱系列连续性。',colors:['#F4EBDD','#1D1D1D','#D95D39']},
+      {id:'organic-botanical',name:'Organic Botanical',density:'medium',best:['sustainability','food','wellness','nature','craft'],risk:'柔和自然色需要深色锚点来建立层级。',colors:['#EAE3D2','#315944','#C17A48']},
+      {id:'retro-pop',name:'Retro Pop Commercial',density:'medium',best:['consumer promotions','food','entertainment','celebrations','playful explainers'],risk:'可能让严肃、敏感或高端主题显得过于轻浮。',colors:['#F6E16F','#EE6A5B','#2667A5']},
+      {id:'warm-neon-cards',name:'暖白荧光卡片 / Warm Neon Cards',density:'high',best:['Chinese long posters','relationship principles','self-help rules','social carousel summaries','four-to-six-card explainers'],risk:'卡片堆叠较高；每条说明要压缩到两三行。',colors:['#FFF8E7','#FF4F91','#FFE06A'],ref:'assets/references/warm-neon-cards-reference.png'},
+      {id:'office-project-update',name:'办公项目同步 / Office Project Update',density:'high',best:['project updates','test plans','risk notices','internal email summaries','technical coordination'],risk:'正式布局可能偏干；用状态色带建立层级。',colors:['#F4F6F8','#142A4A','#2AA9A0'],ref:'assets/references/office-project-update-reference.png'},
+      {id:'japanese-bubble-city-pop',name:'日本泡沫经济 City Pop',density:'medium-to-high',best:['Japan macro history','economic retrospectives','consumer culture','market essays','nostalgic research summaries'],risk:'复古氛围可能压过研究信息。',colors:['#111A38','#26D9E8','#F049A6'],ref:'assets/references/japanese-bubble-city-pop-reference.png'},
+      {id:'cinematic-key-art',name:'Cinematic Key Art',density:'low-to-medium',best:['events','films','major launches','storytelling','hero campaigns'],risk:'戏剧化主视觉会挤压详细正文空间。',colors:['#171B2B','#F2DDC8','#B25D3D']},
+      {id:'hand-drawn-knowledge-diagram',name:'手绘知识图解 / Hand-drawn Knowledge Diagram',density:'high',best:['knowledge explainers','consulting summaries','technical flows','whiteboard workshops','high-readability reports'],risk:'手绘纹理、装饰或色块过强会削弱信息精度。',colors:['#F5EFE3','#222222','#88B7A7','#B9A7D6']}
+    ];
+    const ratios = [
+      {id:'1:1',size:'2048×2048',use:'方形卡片、头像式分享、通用信息卡',w:'92px',h:'92px'},
+      {id:'3:4',size:'2048×2731',use:'紧凑型轮播卡片、移动端阅读',w:'78px',h:'104px'},
+      {id:'4:5',size:'2048×2560',use:'普通信息流卡片、Instagram feed',w:'80px',h:'100px'},
+      {id:'9:16',size:'2160×3840',use:'单张长海报、Story / Reels、四至六张卡片',w:'67px',h:'119px'},
+      {id:'9:21',size:'2160×5040',use:'超长研究摘要、六张以上卡片或约 500–550 字',w:'53px',h:'119px'},
+      {id:'16:9',size:'3840×2160',use:'横幅、Open Graph、汇报封面',w:'150px',h:'84px'}
+    ];
+    const grid=document.querySelector('#style-grid'),search=document.querySelector('#search'),density=document.querySelector('#density'),count=document.querySelector('#style-count');
+    function esc(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+    function renderStyles(){
+      const term=search.value.trim().toLowerCase(),selected=density.value;
+      const visible=styles.filter(s=>{const hay=[s.id,s.name,...s.best,s.risk].join(' ').toLowerCase();return(!term||hay.includes(term))&&(selected==='all'||s.density===selected);});
+      count.textContent=`显示 ${visible.length} / ${styles.length}`;
+      grid.innerHTML=visible.map(s=>{const swatches=s.colors.map(c=>`<span class="swatch" title="${c}" style="background:${c}"></span>`).join('');const ref=s.ref?`<figure class="reference"><img src="${s.ref}" alt="${esc(s.name)} 示例图片"><figcaption>目录内真实示例图</figcaption></figure>`:`<div class="visual-demo" data-style="${esc(s.id)}" style="--d0:${s.colors[0]};--d1:${s.colors[1]};--d2:${s.colors[2]||s.colors[1]}"><span class="demo-label">风格示意</span><div class="demo-kicker"></div><div class="demo-title"></div><div class="demo-grid"><div class="demo-box"></div><div class="demo-box"></div></div></div>`;return `<article class="style-card" style="--c1:${s.colors[1]}"><div class="card-top"><div><div class="style-name">${esc(s.name)}</div><div class="style-id">${esc(s.id)}</div></div><span class="density">${esc(s.density)}</span></div><div class="best">${s.best.map(x=>`<span class="tag">${esc(x)}</span>`).join('')}</div><div class="swatches">${swatches}</div><p class="risk"><strong>注意：</strong>${esc(s.risk)}</p>${ref}</article>`;}).join('')||'<div class="no-ref">没有匹配项，试试输入 technology、中文、high 或 poster。</div>';
+    }
+    ratios.forEach(r=>{const el=document.createElement('article');el.className='ratio-card';el.innerHTML=`<div class="ratio-visual"><div class="ratio-box" style="--rw:${r.w};--rh:${r.h}"></div></div><div class="ratio-title"><span>${r.id}</span><span class="ratio-size">${r.size}</span></div><p class="ratio-use">${r.use}</p>`;document.querySelector('#ratio-grid').appendChild(el);});
+    search.addEventListener('input',renderStyles);density.addEventListener('change',renderStyles);renderStyles();
+  </script>
+</body>
+</html>

@@ -107,6 +107,7 @@
   },
   "japanese-bubble-city-pop": {
     "name": "日本泡沫经济 City Pop",
+    "reference_image": "assets/references/japanese-bubble-city-pop-reference.png",
     "best_for": ["Japan macro history", "economic retrospectives", "consumer culture", "market essays", "nostalgic research summaries"],
     "density": "medium-to-high",
     "risk": "Retro atmosphere can overpower the research message if neon decoration competes with the cards.",
@@ -120,5 +121,13 @@
     "risk": "A dramatic hero image leaves limited space for detailed copy.",
     "prompt": "A cinematic key-art system with one commanding focal scene or object, atmospheric depth, controlled directional light, rich shadow, a limited dramatic palette, and strong title placement. Supporting copy uses a clean condensed sans-serif in a protected high-contrast zone. Repeat a subtle light or framing motif across the series.",
     "avoid": "Avoid crowded ensemble casts, fake film credits, illegible text over detailed imagery, excessive lens flare, and recognizable celebrity likenesses unless explicitly supplied and authorized."
+  },
+  "hand-drawn-knowledge-diagram": {
+    "name": "手绘知识图解 / Hand-drawn Knowledge Diagram",
+    "best_for": ["knowledge explainers", "consulting summaries", "technical flows", "whiteboard workshops", "high-readability reports"],
+    "density": "high",
+    "risk": "Hand-drawn texture can weaken precision if the ink wobble, decoration, or color blocks compete with the information hierarchy.",
+    "prompt": "A high-readability hand-drawn knowledge diagram that feels like a carefully organized creative notebook combined with whiteboard reasoning and a consulting-report infographic—not a cold template. Use a light ivory or warm-light-gray paper canvas with subtle paper grain and generous breathing room. Build the reading path around a strong top headline and one-sentence core judgment, then arrange three to six rounded modules in a clear process, comparison, stage, or causal relationship, ending with one bottom Flow Summary, Decision Summary, or Bottom Line. Compress source content before drawing: keep only the eight to ten most important judgments when the input is long; each module gets a short ordered title and no more than three to five concise bullets or six lines of body copy. Use the source language consistently on the image; do not mix languages except for technical terms, product names, protocol names, code paths, or numeric metrics that appear in the source. Use deep ink-black hand-drawn lines as the structural skeleton, with stable alignment, spacing, grouping, and margins plus a slight natural pen wobble. Add thin frames, rounded zones, restrained soft shadows, numbered markers, arrows, tags, and small wayfinding icons; icons must support hierarchy rather than compete with text. Use a restrained marker palette: ivory background and black structure with low-saturation teal, sage green, soft lavender, gentle orange, and pale blue for small-to-medium section fills and paths. Preserve every supplied technical chain, component name, arrow direction, protocol, port, data flow, action, and conclusion exactly; never invent a component or change an action. Render crisp, solid, high-contrast typography at 4K high resolution and honor the plan's aspect ratio (16:9, 5:4, 4:3, or 21:9 when specified).",
+    "avoid": "Avoid cold corporate templates, dense microtype, tiny tables, long uncompressed paragraphs, language mixing, neon colors, strong gradients, glossy commercial lighting, full-page single-color fills, decorative icons that steal attention, unstable alignment, excessive shadows, and any unsourced component, claim, arrow, protocol, port, data flow, action, or text."
   }
 }

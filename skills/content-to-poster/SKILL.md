@@ -83,5 +83,9 @@ Report the plan and manifest paths, saved image paths in page order, chosen styl
 
 ## Curated Reference Styles
 
+For a visual overview of every supported style and aspect ratio, open [style-catalog.html](style-catalog.html) in this skill directory.
+
 - `warm-neon-cards` — 暖白荧光卡片 / Warm Neon Cards; see [assets/references/warm-neon-cards-reference.png](assets/references/warm-neon-cards-reference.png)
 - `office-project-update` — 办公项目同步 / Office Project Update; see [assets/references/office-project-update-reference.png](assets/references/office-project-update-reference.png)
+- `japanese-bubble-city-pop` — 日本泡沫经济 City Pop; see [assets/references/japanese-bubble-city-pop-reference.png](assets/references/japanese-bubble-city-pop-reference.png)
+- `hand-drawn-knowledge-diagram` — 手绘知识图解 / Hand-drawn Knowledge Diagram; use for high-readability explainers that combine notebook, whiteboard, and consulting-report infographic cues.
