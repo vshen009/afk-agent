@@ -43,7 +43,13 @@ Accept pasted text, local files, URLs already available to the agent, or structu
    ```
 
    Use `--env-file`, `--model`, `--provider-name`, `--preset`, `--size`, or `--quality` only when needed. Use `--pages 01-cover,03-steps` to render or retry selected pages. The script locates the sibling `image2-api` skill by default; use `--image2-script` only for a nonstandard installation.
-6. **Visually verify every result.** Inspect the images at readable scale. Check exact required copy, names/numbers/dates, legibility, clipping, page order, repeated design tokens, and unwanted text. For Chinese text-heavy posters, check every headline, numbered label, punctuation mark, and key phrase individually. If a typo appears, use an input-fidelity edit pass that changes only the incorrect glyph; if exact text remains unreliable, report the limitation instead of silently accepting it.
+6. **Pass the mandatory release QA gate.** A successful render is only `rendered-awaiting-qa`, never a deliverable result. Read [references/qa-gate.md](references/qa-gate.md), initialize `qa-report.json`, inspect every rendered image at readable scale, and compare all visible copy against the prompt's exact-copy contract character by character. Chinese review must cover every visible Han character, punctuation mark, Latin token, and number; OCR may assist but may not approve a page. Also verify factual/technical accuracy, design-plan compliance, and visual integrity. Any failed check blocks the affected page and the whole series. After corrections, run:
+
+   ```powershell
+   py scripts/qa_gate.py --manifest <series-directory>/manifest.json --report <series-directory>/qa-report.json
+   ```
+
+   Only exit code `0` and `release_gate.status: passed` authorize delivery. If required text remains unreliable after targeted retries, leave the gate failed and report the limitation; never silently accept or present the image as finished.
 
 ## Prompt and Rendering Invariants
 
@@ -54,6 +60,7 @@ Accept pasted text, local files, URLs already available to the agent, or structu
 - When a reference image is supplied, learn its composition, spacing, color roles, card geometry, and decorative rhythm. Do not copy its wording, logos, recognizable characters, or unrelated claims.
 - Render pages separately so one failure can be retried without regenerating the series.
 - Do not claim pixel-perfect text accuracy from an image model. Verification is mandatory when exact copy matters.
+- Do not equate API success with delivery success. `rendered-awaiting-qa` and `release_gate.status: required|failed` are blocking states.
 
 ## Output
 
@@ -63,6 +70,7 @@ Use `generated/content-to-poster/<slug>/` by default, unless the user requests a
 <slug>/
 |-- poster-plan.json
 |-- manifest.json
+|-- qa-report.json
 |-- prompts/
 |   |-- 01-cover.md
 |   `-- ...
@@ -71,7 +79,7 @@ Use `generated/content-to-poster/<slug>/` by default, unless the user requests a
     `-- ...
 ```
 
-Report the plan and manifest paths, saved image paths in page order, chosen style, aspect/size, quality, provider and endpoint, per-page success/failure, and any text-accuracy caveat. Show the generated images with absolute local Markdown paths.
+Report the plan, manifest, and QA-report paths; saved image paths in page order; chosen style; aspect/size; quality; provider and endpoint; per-page render status; and final QA-gate status. Show images as finished deliverables only when the release gate passed. If it failed, identify the affected pages and issues without describing the series as complete.
 
 ## References
 
@@ -79,6 +87,8 @@ Report the plan and manifest paths, saved image paths in page order, chosen styl
 - [references/styles.json](references/styles.json): selectable visual systems and prompt atoms
 - [references/layouts.json](references/layouts.json): page types, composition guidance, and density limits
 - [references/poster-plan.schema.json](references/poster-plan.schema.json): machine-readable plan contract
+- [references/qa-gate.md](references/qa-gate.md): mandatory post-render inspection and release criteria
+- [references/qa-report.schema.json](references/qa-report.schema.json): machine-readable QA report contract
 - [references/sources.md](references/sources.md): local reference-image and curated-style notes
 
 ## Curated Reference Styles

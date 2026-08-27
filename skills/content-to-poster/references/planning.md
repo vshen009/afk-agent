@@ -104,4 +104,4 @@ Before rendering, verify:
 
 ## 9. Visual QA after rendering
 
-Inspect every image for exact copy, character substitutions, missing punctuation, unwanted text, broken hands/faces when people appear, low contrast, type collisions, unsafe margins, inconsistent palette or typography, duplicated page numbers, and accidental brand marks. A visually attractive image with incorrect required copy is a failed page.
+Rendering success does not release a page. Follow the mandatory gate in [qa-gate.md](qa-gate.md), record the result in `qa-report.json`, and run `scripts/qa_gate.py`. Inspect every image for exact copy, character substitutions, missing punctuation, unwanted text, broken hands/faces when people appear, low contrast, type collisions, unsafe margins, inconsistent palette or typography, duplicated page numbers, and accidental brand marks. A visually attractive image with one incorrect required character is a failed page, and a series containing any failed page is not deliverable.
