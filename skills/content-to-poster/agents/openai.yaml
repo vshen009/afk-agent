@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content to Poster"
+  short_description: "将长短内容整理为结构化计划，并生成统一风格的系列海报图片"
+  default_prompt: "Use $content-to-poster to turn this content into a cohesive poster flow."

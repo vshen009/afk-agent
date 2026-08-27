@@ -1,0 +1,52 @@
+{
+  "cover": {
+    "best_for": "Series identity, promise, topic, and a compelling entry point.",
+    "composition": "One dominant headline in the upper or central visual field, one short supporting line, one focal visual, and a small series marker. Keep generous safe margins and immediate hierarchy.",
+    "limits": "One headline, optional kicker and subheadline, no more than two short facts or one CTA."
+  },
+  "thesis": {
+    "best_for": "A single core claim, surprising conclusion, or framing idea.",
+    "composition": "Make the claim the largest element. Pair it with one supporting paragraph, one restrained visual metaphor, and a strong area of negative space.",
+    "limits": "One headline, one short body paragraph, and at most two facts."
+  },
+  "section": {
+    "best_for": "Explaining one topic with two or three supporting points.",
+    "composition": "Use a clear section headline, a stable text column or card, a secondary visual zone, and two or three compact supporting blocks with obvious reading order.",
+    "limits": "At most three body paragraphs or three items; avoid dense full-width prose."
+  },
+  "list": {
+    "best_for": "Parallel tips, features, examples, tools, or grouped takeaways.",
+    "composition": "Use a modular grid or stacked rhythm with consistent item numbering, equal visual weight, concise labels, and one shared visual motif.",
+    "limits": "Three to five items; each item needs a short label and compact text."
+  },
+  "steps": {
+    "best_for": "Ordered instructions, stages, chronology, or a process.",
+    "composition": "Create an unmistakable directional sequence using a vertical path, stepped modules, or numbered progression. Keep connectors subordinate to the words.",
+    "limits": "Three to six ordered items; do not use for unordered categories."
+  },
+  "comparison": {
+    "best_for": "Contrasting options, before/after states, tradeoffs, or side-by-side choices.",
+    "composition": "Use aligned columns or a balanced split with shared criteria, equal typography, and a neutral center divider. Highlight the decision rule, not a decorative winner badge unless the source states a recommendation.",
+    "limits": "Two to four comparable items and no more than five criteria; preserve symmetry."
+  },
+  "quote": {
+    "best_for": "An exact sourced quotation or memorable verbatim statement.",
+    "composition": "Treat the quotation as a large typographic object with a protected reading area, restrained quotation marks, clear attribution, and one atmospheric supporting visual.",
+    "limits": "One exact quote, one attribution, and optional context under 40 Chinese characters."
+  },
+  "data": {
+    "best_for": "Sourced metrics, evidence, rankings, or a small set of quantitative facts.",
+    "composition": "Make one to four values dominant using large numerals, concise labels, consistent units, and simple comparison geometry. Include a small source line when provided.",
+    "limits": "One to four sourced metrics. Never infer or fabricate a value, scale, axis, or trend."
+  },
+  "cta": {
+    "best_for": "A concrete next action, registration, purchase, download, visit, or participation instruction.",
+    "composition": "One action-led headline, a prominent exact CTA, only the operational facts needed to act, and a clean focal zone for a supplied QR code or URL if present.",
+    "limits": "One CTA, up to three operational facts, and one URL or QR placeholder only when supplied."
+  },
+  "summary": {
+    "best_for": "Recap, checklist, decision aid, or final save/share card.",
+    "composition": "Reassemble the series into three to five concise takeaways with a strong closing headline, orderly checklist rhythm, and a small concluding CTA or footer.",
+    "limits": "Three to five takeaways and one optional CTA; do not introduce new claims."
+  }
+}
