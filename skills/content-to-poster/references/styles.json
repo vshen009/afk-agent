@@ -1,0 +1,124 @@
+{
+  "editorial-swiss": {
+    "name": "Swiss Editorial",
+    "best_for": ["education", "business", "reports", "general-purpose", "dense copy"],
+    "density": "high",
+    "risk": "Can feel institutional if the visual brief lacks a human or surprising focal point.",
+    "prompt": "A disciplined Swiss editorial system with an asymmetric modular grid, generous margins, crisp alignment, restrained geometric rules, off-white paper, charcoal text, and one saturated red or cobalt accent. Use bold neo-grotesk display type, highly legible supporting type, small index labels, and precise typographic rhythm. Imagery should be documentary, diagrammatic, or a single clean cutout rather than decorative stock art.",
+    "avoid": "Avoid generic corporate gradients, centered-everything composition, glossy 3D decoration, and excessive rounded cards."
+  },
+  "warm-editorial": {
+    "name": "Warm Editorial",
+    "best_for": ["lifestyle", "culture", "personal essays", "wellness", "books"],
+    "density": "medium",
+    "risk": "Low contrast beige-on-beige treatments can reduce readability.",
+    "prompt": "A warm independent-magazine aesthetic using cream, terracotta, cocoa, muted olive, and ink black. Combine an expressive editorial serif headline with a clean humanist sans-serif body. Use tactile paper grain, soft natural light, refined cropping, thin rules, and calm asymmetry. The result should feel authored and contemporary, not like a lifestyle template.",
+    "avoid": "Avoid pale low-contrast text, scrapbook clutter, fake handwriting for body copy, and sentimental stock-photo clichés."
+  },
+  "neo-brutalist": {
+    "name": "Neo Brutalist",
+    "best_for": ["youth culture", "provocative opinions", "creative events", "bold launches"],
+    "density": "medium",
+    "risk": "Aggressive scale and contrast can overwhelm nuanced or formal material.",
+    "prompt": "A controlled neo-brutalist poster system with oversized condensed sans-serif type, stark black and white, one acidic accent, hard rectangular borders, visible grid tension, blunt labels, and intentional collision without sacrificing legibility. Use flat shapes, rough photocopy texture, and decisive negative space. Make it energetic and editorial rather than chaotic.",
+    "avoid": "Avoid random distortion, unreadable type, meme aesthetics, gratuitous glitches, and more than three dominant colors."
+  },
+  "bauhaus-geometric": {
+    "name": "Bauhaus Geometric",
+    "best_for": ["design", "architecture", "education", "systems", "creative workshops"],
+    "density": "medium",
+    "risk": "Geometric motifs can compete with data-heavy copy.",
+    "prompt": "A modern Bauhaus-derived visual system using primary red, yellow, blue, black, and warm white; circles, bars, arcs, and orthogonal geometry; functional sans-serif typography; and a clearly visible construction grid. Let geometry organize hierarchy and movement. Keep forms flat, purposeful, and spatially balanced rather than nostalgic pastiche.",
+    "avoid": "Avoid decorative geometry behind small text, rainbow palettes, faux-vintage distress everywhere, and literal imitation of a specific historic poster."
+  },
+  "new-chinese": {
+    "name": "New Chinese Editorial",
+    "best_for": ["Chinese culture", "festivals", "heritage brands", "literature", "tea and food"],
+    "density": "medium",
+    "risk": "Clichéd symbols can make modern subjects feel like tourism advertising.",
+    "prompt": "A contemporary Chinese editorial system with vermilion, ink black, rice-paper white, and restrained mineral colors. Use modern Chinese typographic hierarchy, seal-like micro labels, generous breathing room, cropped brush or landscape abstractions, and refined vertical-horizontal tension. Traditional references must be abstracted into a current graphic language with precise readable text.",
+    "avoid": "Avoid dragons, lanterns, gold clouds, ornate borders, calligraphy body text, and stereotypical festival decoration unless the source specifically requires them."
+  },
+  "cyber-neon": {
+    "name": "Cyber Neon",
+    "best_for": ["technology", "gaming", "music", "future events", "AI products"],
+    "density": "low-to-medium",
+    "risk": "Glow and texture can harm small-text legibility.",
+    "prompt": "A dark cyber-neon system with deep navy or black, electric cyan, ultraviolet, and a controlled magenta signal. Use luminous grid lines, holographic panels sparingly, sharp technical typography, high-contrast labels, and one cinematic digital focal object. Preserve clean negative space and make all exact copy solid and crisp rather than glowing.",
+    "avoid": "Avoid covering text with glow, dense HUD clutter, illegible sci-fi fonts, rain-soaked cyberpunk city clichés, and uncontrolled lens flares."
+  },
+  "data-tech": {
+    "name": "Data Tech Editorial",
+    "best_for": ["research", "data", "finance", "B2B technology", "comparisons"],
+    "density": "high",
+    "risk": "Decorative charts may be mistaken for sourced data.",
+    "prompt": "A high-clarity data editorial system using midnight blue, cool gray, white, and a single teal or amber signal. Combine a precise grotesk with tabular numerals, modular information zones, fine rules, compact legends, and restrained chart-like geometry. Visualize only relationships stated in the content; any unsourced geometry remains clearly abstract.",
+    "avoid": "Avoid fabricated charts, invented percentages, dashboard screenshots, tiny labels, glassy card overload, and fake interface controls."
+  },
+  "luxury-minimal": {
+    "name": "Luxury Minimal",
+    "best_for": ["premium products", "fashion", "hospitality", "beauty", "invitations"],
+    "density": "low",
+    "risk": "Not suitable for long lists or instructional detail.",
+    "prompt": "A restrained luxury editorial system with near-black, ivory, stone, and one muted metallic accent represented as flat color rather than shiny foil. Use an elegant high-contrast serif headline, quiet sans-serif details, wide margins, exquisite cropping, and one premium focal image or material study. Hierarchy should feel confident, sparse, and intentional.",
+    "avoid": "Avoid fake gold gradients, excessive ornament, cursive body text, generic perfume-ad clichés, and squeezing dense copy into small type."
+  },
+  "collage-zine": {
+    "name": "Editorial Collage Zine",
+    "best_for": ["arts", "music", "community", "youth culture", "opinion"],
+    "density": "medium",
+    "risk": "Layering can obscure exact copy or weaken continuity across pages.",
+    "prompt": "An editorial collage and risograph-inspired system with cut-paper imagery, visible halftone, torn edges, overprint texture, two or three ink colors, typed labels, and bold clean headline typography. Use layered depth around—not over—exact copy. Maintain a repeatable grid underneath the handmade surface.",
+    "avoid": "Avoid random sticker clutter, text pasted at arbitrary angles, copyrighted magazine logos, illegible photocopy degradation, and more than three ink colors."
+  },
+  "organic-botanical": {
+    "name": "Organic Botanical",
+    "best_for": ["sustainability", "food", "wellness", "nature", "craft"],
+    "density": "medium",
+    "risk": "Soft natural palettes may lose hierarchy without a dark anchor.",
+    "prompt": "An organic modern system with forest green, clay, oat, muted yellow, and deep charcoal. Use botanical silhouettes or macro natural textures, tactile fibers, softly irregular shapes, a friendly editorial serif, and a highly legible sans-serif. Keep a strong dark typographic anchor and structured spacing so the result remains informative.",
+    "avoid": "Avoid watercolor clip-art, pale text, wellness-brand clichés, busy leaf borders, and decorative plants that compete with content."
+  },
+  "retro-pop": {
+    "name": "Retro Pop Commercial",
+    "best_for": ["consumer promotions", "food", "entertainment", "celebrations", "playful explainers"],
+    "density": "medium",
+    "risk": "Can trivialize serious, sensitive, or premium subjects.",
+    "prompt": "A bright retro-pop system using punchy coral, butter yellow, aqua, cobalt, and black outlines. Use large friendly display type, flat product or editorial illustration, offset shadows, energetic badges, and a strong diagonal or modular rhythm. Keep the composition contemporary, clean, and commercially readable.",
+    "avoid": "Avoid childish clip-art, comic speech bubbles around every item, excessive starbursts, low-contrast candy colors, and unlicensed character likenesses."
+  },
+  "warm-neon-cards": {
+    "name": "暖白荧光卡片 / Warm Neon Cards",
+    "reference_image": "assets/references/warm-neon-cards-reference.png",
+    "best_for": ["Chinese long posters", "relationship principles", "self-help rules", "social carousel summaries", "four-to-six-card explainers"],
+    "density": "high",
+    "risk": "The tall card stack can become crowded if each explanation is not compressed to two or three short lines.",
+    "prompt": "A tall Chinese social-poster card system inspired by contemporary editorial infographics: warm ivory background, very bold black Chinese sans-serif display type, fluorescent hot-pink emphasis, butter-yellow numbered circles, thin black rectangular card borders, white card interiors, and small aqua underlines or offset shadows. Arrange four to six stacked information cards in a 9:16 vertical composition. Use a top title block with one oversized headline and a short subheadline, clear left-to-right reading order, generous outer margins, precise baseline alignment, and high-contrast body text. Add only a few playful geometric micro-motifs such as dots, arcs, ticks, or simple flat editorial objects. The mood is relaxed, direct, youthful, and self-possessed—not childish, romanticized, or aggressive.",
+    "avoid": "Avoid copying any reference image's wording, logos, emojis, characters, or unrelated claims. Avoid gradients, glossy 3D, decorative clutter, tiny body text, dense paragraphs, random stickers, and low-contrast pastel text."
+  },
+  "office-project-update": {
+    "name": "办公项目同步 / Office Project Update",
+    "reference_image": "assets/references/office-project-update-reference.png",
+    "best_for": ["project updates", "test plans", "risk notices", "internal email summaries", "technical coordination"],
+    "density": "high",
+    "risk": "A formal information layout can feel dry; use color-coded status bands and a clear action footer without adding decorative noise.",
+    "prompt": "A formal Chinese office project-update poster system: white and very light cool-gray canvas, deep navy title area, clean Chinese sans-serif typography, teal for progress or normal status, amber-orange for risks, and thin gray rules. Use a 9:16 or extra-tall 9:21 vertical memo layout with a compact header, a prominent deadline or milestone badge, and four to six spacious white information cards. Each card has a narrow colored status rail, a bold label, and two or three short readable lines. Use restrained table-like alignment, generous margins, clear risk hierarchy, and a dark navy action footer. The result should resemble a polished internal project-group update or technical coordination memo, not a marketing ad.",
+    "avoid": "Avoid people, decorative illustrations, fake dashboards, invented metrics, excessive rounded UI cards, tiny text, gradients, brand logos, and any wording not supplied by the user."
+  },
+  "japanese-bubble-city-pop": {
+    "name": "日本泡沫经济 City Pop",
+    "best_for": ["Japan macro history", "economic retrospectives", "consumer culture", "market essays", "nostalgic research summaries"],
+    "density": "medium-to-high",
+    "risk": "Retro atmosphere can overpower the research message if neon decoration competes with the cards.",
+    "prompt": "A late-1980s Japanese bubble-economy and City Pop editorial poster system, evoking polished urban magazine advertising without copying any specific ad. Use deep midnight navy, electric cyan, hot magenta, lavender, pale cream, and restrained chrome highlights. Combine a twilight gradient sky, abstract Tokyo-like skyline silhouettes, geometric sun or moon discs, diagonal perspective lines, cassette or compact-car silhouettes used only as small abstract motifs, and crisp bold Chinese typography with a subtle retro-grotesk flavor. Keep a clear 9:21 vertical reading path: a cinematic title header, six spacious research cards, and a dark closing band. The mood is optimistic, affluent, urban, slightly nostalgic, and analytical; research copy remains high-contrast, calm, and fully legible.",
+    "avoid": "Avoid recognizable logos, real company advertisements, celebrity likenesses, copyrighted characters, fake Japanese text, stock-market candlestick charts, excessive chrome, noisy neon glow, and any wording not supplied by the user."
+  },
+  "cinematic-key-art": {
+    "name": "Cinematic Key Art",
+    "best_for": ["events", "films", "major launches", "storytelling", "hero campaigns"],
+    "density": "low-to-medium",
+    "risk": "A dramatic hero image leaves limited space for detailed copy.",
+    "prompt": "A cinematic key-art system with one commanding focal scene or object, atmospheric depth, controlled directional light, rich shadow, a limited dramatic palette, and strong title placement. Supporting copy uses a clean condensed sans-serif in a protected high-contrast zone. Repeat a subtle light or framing motif across the series.",
+    "avoid": "Avoid crowded ensemble casts, fake film credits, illegible text over detailed imagery, excessive lens flare, and recognizable celebrity likenesses unless explicitly supplied and authorized."
+  }
+}
