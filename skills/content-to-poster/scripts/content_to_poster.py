@@ -515,6 +515,10 @@ def main() -> int:
             "quality": quality,
             "plan_path": str(saved_plan_path),
             "warnings": warnings,
+            "release_gate": {
+                "status": "required" if args.render else "not-started",
+                "qa_report_path": "",
+            },
             "pages": manifest_pages,
         }
         write_json(manifest_path, manifest)
@@ -547,7 +551,7 @@ def main() -> int:
                 write_json(manifest_path, manifest)
 
         summary = {
-            "status": "failed" if failures else ("rendered" if args.render else "prompts-ready"),
+            "status": "failed" if failures else ("rendered-awaiting-qa" if args.render else "prompts-ready"),
             "plan_path": str(saved_plan_path),
             "manifest_path": str(manifest_path),
             "style": plan["style"],
@@ -555,6 +559,7 @@ def main() -> int:
             "size_or_preset": size or preset,
             "quality": quality,
             "warnings": warnings,
+            "release_gate": manifest["release_gate"],
             "pages": [
                 {
                     "id": entry["id"],
